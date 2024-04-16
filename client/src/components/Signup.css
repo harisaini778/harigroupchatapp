@@ -1,0 +1,61 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
+
+
+.brand-slogan{
+
+    font-size: "Montserrat";
+    font-size: 3.0rem;
+    font-weight: bolder;
+    text-align: center;
+    color : rgb(7,94,84)
+    
+}
+
+@media (max-width : 576px) {
+    .brand-slogan{
+        font-size: 1.5rem;   
+    }
+}
+
+.form-label{
+    color :rgb(18,140,126) !important;
+    font-family: "Montserrat";
+    font-size: 1.4rem !important;
+}
+
+@media (max-width:576px) {
+    .form-label{
+        font-size: 1rem !important;
+    }
+}
+.signup-btn{
+    width : 30% !important;
+
+}
+.signup-btn-txt{
+    font-family: "Montserrat" !important;
+    font-size: 1.2rem !important;
+    text-align: center !important;
+}
+
+.signup-btn-icon{
+    font-size: 1.2rem !important;
+}
+.sign-up-stack{
+  display: flex;
+  justify-content: center;
+}
+.signup-footer-stack{
+    display: flex;
+    justify-content: center !important;
+}
+.signup-footer-txt{
+    font-family: "Montserrat" !important;
+    font-size: 1.2rem !important;
+}
+.signup-footer-txt-link{
+    font-family: "Montserrat" !important;
+    font-size: 1.5rem !important;
+    font-weight: bolder !important;
+    color:rgb(7,94,84);
+}
