@@ -1,9 +1,16 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat');
+/* 
+body{
+    background-image: url("../components/assets/42959.jpg") !important;
+    background-repeat: no-repeat;
+    background-size :cover;
+    background-position: center;   
+} */
 
 
 .brand-slogan{
 
-    font-size: "Montserrat";
+    font-size: "Montserrat" !important;
     font-size: 3.0rem;
     font-weight: bolder;
     text-align: center;
@@ -17,10 +24,26 @@
     }
 }
 
+.sign-up-form{
+    width : 50%;
+    /* border: 2px solid rgb(7,94,84); */
+    padding: 30px;
+    border-radius: 20px;
+    margin: 50px;
+    box-shadow: 2px 2px 4px 4px  rgb(18,140,126);
+}
+
+@media (max-width:576px) {
+    .sign-up-form{
+        width : 90%;
+    } 
+}
+
 .form-label{
     color :rgb(18,140,126) !important;
     font-family: "Montserrat";
     font-size: 1.4rem !important;
+    font-weight: bolder;
 }
 
 @media (max-width:576px) {
@@ -29,33 +52,86 @@
     }
 }
 .signup-btn{
-    width : 30% !important;
-
+    width : 40% !important;
+    background-color: rgb(18,140,126) !important;
 }
+
+.signin-btn{
+    width: 40% !important;
+    background-color: rgb(18,140,126) !important;
+    display: block !important;
+    justify-content: center !important;
+    
+}
+
+.signup-btn:hover{
+    background-color: white !important;
+    border:2px solid rgb(18,140,126) !important;
+    color: rgb(18,140,126) !important;
+}
+
+.signin-btn:hover{
+    background-color: white !important;
+    border:2px solid rgb(18,140,126) !important;
+    color: rgb(18,140,126) !important;
+}
+
 .signup-btn-txt{
     font-family: "Montserrat" !important;
     font-size: 1.2rem !important;
     text-align: center !important;
+    font-weight: bold;
 }
+
+@media (max-width : 576px) {
+    .signup-btn-txt{
+        font-size: 1rem !important;
+    }
+}
+
 
 .signup-btn-icon{
     font-size: 1.2rem !important;
 }
+
+@media (max-width:576px) {
+
+    .signup-btn-icon{
+        font-size: 1rem !important;
+    }   
+}
+
 .sign-up-stack{
   display: flex;
   justify-content: center;
 }
+
 .signup-footer-stack{
     display: flex;
     justify-content: center !important;
 }
+
 .signup-footer-txt{
     font-family: "Montserrat" !important;
     font-size: 1.2rem !important;
 }
+
+@media (max-width:576px) {
+    .signup-footer-txt{
+        font-size: 1rem !important;
+    }
+}
+
+
 .signup-footer-txt-link{
     font-family: "Montserrat" !important;
     font-size: 1.5rem !important;
     font-weight: bolder !important;
     color:rgb(7,94,84);
+}
+
+@media (max-width:576px) {
+    .signup-footer-txt-link{
+        font-size: 1.2em !important;
+    }
 }

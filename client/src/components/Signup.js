@@ -39,13 +39,13 @@ const Signup = () => {
   }
 
   return (
-    <Container className="mt-5">
+    <Container className="mt-5 body-img">
       <Container className="mt-5 mb-5">
-        <div className="brand-slogan">Welcome To Group Chat App</div>
+        <div className="brand-slogan">ChatCircle - Connect with Friends and Family Anytime, Anywhere!</div>
       </Container>
       <Container >
         {isToggle ? (
-          <Form className="sign-up-form">
+          <Form className="sign-up-form mx-auto">
             <Form.Group as={Row} controlId="signupformgroup">
               <Form.Label htmlFor="name"  className="form-label">
                 Username
@@ -71,7 +71,7 @@ const Signup = () => {
                   </div>
                 </Stack>
               </Button>
-              <Stack direction="horizontal" className="signup-footer-stack m-2">
+              <Stack direction="horizontal" gap={2} className="signup-footer-stack m-2">
                 <div className="signup-footer-txt">Already an existing user ?</div>
                 <div onClick={toggleFormHandler} className="signup-footer-txt-link"
                 >Log in</div>
@@ -79,28 +79,28 @@ const Signup = () => {
             </Form.Group>
           </Form>
         ) : (
-          <Form>
+          <Form className="sign-up-form mx-auto">
             <Form.Group as={Row} controlId="signinformgroup">
               <Form.Label htmlFor="email" column sm="2" className="form-label">
                 Email
               </Form.Label>
-              <Form.Control type="email" id="email" ref={emailRef}/>
+              <Form.Control type="email" id="email" ref={emailRef} className="m-2"/>
               <Form.Label htmlFor="password" column sm="2" className="form-label">
                 Password
               </Form.Label>
-              <Form.Control type="password" id="password"  ref={passwordRef}/>
+              <Form.Control type="password" id="password"  ref={passwordRef}  className="m-2"/>
             </Form.Group>
-            <Button onClick={loginHandler}>
-              <Stack direction="horizontal" gap={2}>
-                <div>Login</div>
-                <div>
-                  <FaSignInAlt />
+            <Button onClick={loginHandler} className="signin-btn mx-auto m-2">
+              <Stack direction="horizontal" gap={2} className="sign-up-stack">
+                <div className="signup-btn-txt">Login</div>
+                <div className="signup-btn-div">
+                  <FaSignInAlt className="signup-btn-icon" />
                 </div>
               </Stack>
             </Button>
-            <Stack direction="horizontal">
-              <div>Don't have an account ?</div>
-              <div onClick={toggleFormHandler}>Sign Up</div>
+            <Stack direction="horizontal" gap={2} className="signup-footer-stack m-2">
+              <div className="signup-footer-txt">Don't have an account ?</div>
+              <div onClick={toggleFormHandler} className="signup-footer-txt-link">Sign Up</div>
             </Stack>
           </Form>
         )}
