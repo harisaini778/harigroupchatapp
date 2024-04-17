@@ -16,7 +16,9 @@ const Signup = () => {
     setIsToggle(!isToggle);
   };
 
-  const loginHandler = async () => {
+  const loginHandler = async (e) => {
+
+    e.preventDefault();
 
     try {
 
@@ -31,7 +33,11 @@ const Signup = () => {
     }
     const res = await axios.post("http://localhost:5000/user/login",loginData,{headers});
 
-    console.log("Res in login client : ",res.body);
+    console.log("res form  login handler : ",res);
+
+    alert("Login Sucessful!");
+
+    clearLoginFormDetails();
 
 
     } catch (err) {
@@ -69,7 +75,7 @@ const Signup = () => {
 
     alert("User has been created successfully,Please login now!");
 
-    cleanFormDetails();
+    clearSignUpFormDetails();
 
     } catch(err) {
 
@@ -79,14 +85,18 @@ const Signup = () => {
   
   }
 
-  const cleanFormDetails = () => {
+  const clearSignUpFormDetails = () => {
     nameRef.current.value = "";
     emailRef.current.value = "";
     passwordRef.current.value="";
     confirmPasswordRef.current.value="";
   }
 
-  
+  const clearLoginFormDetails = () => {
+    emailRef.current.value = "";
+    passwordRef.current.value="";
+  }
+
   return (
     <Container className="mt-5 body-img">
       <Container className="mt-5 mb-5">

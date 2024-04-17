@@ -4,17 +4,37 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const userModel = require("../models/userModel");
 
-const generateAcessToken = (id,email) => {
-  jwt.sign({userid : id, email : email},process.env.JWT_SECRET,{expiresIn:"1h"})
+const generateAccessToken = (id, email) => {
+    return jwt.sign({ userId: id, email: email }, process.env.JWT_SECRET, { expiresIn: '1h' });
 };
 
+//console.log("Process env JWT_SECRET : ",process.env.JWT_SECRET);
 
 const postUserLogin = async (req,res) =>{
       
 try {
 
+    const {email,password} = req.body;
 
-    //console.log("logindata is :",loginData);
+    const user = await userModel.findOne({where : {email:email}});
+
+    if(!user) {
+
+        return res.status(403).send({message:'User does not exists'});
+
+    }
+
+    const passwordCompare  = await bcrypt.compare(password,user.password);
+
+    if(!passwordCompare) {
+        return res.status(403).send({message:'Invalid Password!'});
+    }
+
+    const token = generateAccessToken(user.id,user.email);
+
+    console.log("JWT token is : ",token);
+
+    return res.status(200).json({message : "Login Sucessful", userId : user.id,token :token});
 
 }catch(err){
     console.log("Err during login server : ", err);
