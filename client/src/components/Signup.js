@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState,useEffect } from "react";
 import { Container, Row, Form, Button, Stack } from "react-bootstrap";
 import { FaLock, FaSignInAlt } from "react-icons/fa";
 import "./Signup.css";
@@ -15,6 +15,8 @@ const Signup = () => {
   const toggleFormHandler = () => {
     setIsToggle(!isToggle);
   };
+
+
 
   const loginHandler = async (e) => {
 
@@ -35,6 +37,10 @@ const Signup = () => {
 
     console.log("res form  login handler : ",res);
 
+    const {userId, token, email } = res.data;
+    console.log("res form useEffect : ",res)
+    localStorage.setItem("user", JSON.stringify({ userId, email, token }));
+
     alert("Login Sucessful!");
 
     clearLoginFormDetails();
@@ -44,6 +50,23 @@ const Signup = () => {
       console.log("Err during login client : ",err);
     }
   }
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const res = await axios.get("http://localhost:5000/user/login");
+  //       const { message, userId, token, email } = res.data;
+  //       console.log("res form useEffect : ",res)
+  //       localStorage.setItem("user", JSON.stringify({ userId, email, token }));
+  //     } catch (err) {
+  //       console.log("Err during fetching user data:", err);
+  //     }
+  //   };
+  
+  //   fetchData();
+  
+  // }, []);
+  
 
   const signUpHandler = async (e) => {
   

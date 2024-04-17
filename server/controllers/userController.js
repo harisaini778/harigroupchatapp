@@ -34,7 +34,7 @@ try {
 
     console.log("JWT token is : ",token);
 
-    return res.status(200).json({message : "Login Sucessful", userId : user.id,token :token});
+    return res.status(200).json({message : "Login Sucessful", userId : user.id,email : email,token :token});
 
 }catch(err){
     console.log("Err during login server : ", err);
