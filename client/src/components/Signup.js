@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 import { Container, Row, Form, Button, Stack } from "react-bootstrap";
 import { FaLock, FaSignInAlt } from "react-icons/fa";
 import "./Signup.css";
+import axios from "axios"
 
 const Signup = () => {
   const [isToggle, setIsToggle] = useState(false);
@@ -15,17 +16,39 @@ const Signup = () => {
     setIsToggle(!isToggle);
   };
 
-  const loginHandler = () => {
-    const loginData = {
+  const loginHandler = async () => {
+
+    try {
+
+      const loginData = {
         email : emailRef.current.value,
         password : passwordRef.current.value
     }
+   
+     
+    const headers = {
+      "Content-Type" : "application/json",
+    }
+    const res = await axios.post("http://localhost:5000/user/login",loginData,{headers});
+
+    console.log("Res in login client : ",res.body);
+
+
+    } catch (err) {
+      console.log("Err during login client : ",err);
+    }
   }
 
-  const signUpHandler = () => {
+  const signUpHandler = async (e) => {
+  
+    e.preventDefault();
+     
+    try {
 
-    if (passwordRef.current.value===confirmPasswordRef.current.value) {
-        const signUpData = {
+      let signUpData;
+
+      if (passwordRef.current.value===confirmPasswordRef.current.value) {
+         signUpData = {
             username : nameRef.current.value,
             email : emailRef.current.value,
             password : passwordRef.current.value
@@ -35,9 +58,35 @@ const Signup = () => {
             alert("Passwords do not match")
         );
     }
+
+    const headers = {
+      "Content-Type" : "application/json",
+    }
+
+    const res = await axios.post("http://localhost:5000/user/signup",signUpData,{headers});
+
+    console.log("res form  sign up handler : ",res);
+
+    alert("User has been created successfully,Please login now!");
+
+    cleanFormDetails();
+
+    } catch(err) {
+
+      console.log("Err during sign up client : ",err);
+
+    }
   
   }
 
+  const cleanFormDetails = () => {
+    nameRef.current.value = "";
+    emailRef.current.value = "";
+    passwordRef.current.value="";
+    confirmPasswordRef.current.value="";
+  }
+
+  
   return (
     <Container className="mt-5 body-img">
       <Container className="mt-5 mb-5">
@@ -45,8 +94,8 @@ const Signup = () => {
       </Container>
       <Container >
         {isToggle ? (
-          <Form className="sign-up-form mx-auto">
-            <Form.Group as={Row} controlId="signupformgroup">
+          <Form className="sign-up-form mx-auto" onSubmit={signUpHandler}>
+            <Form.Group as={Row} >
               <Form.Label htmlFor="name"  className="form-label">
                 Username
               </Form.Label>
@@ -63,7 +112,7 @@ const Signup = () => {
                 Confirm Password
               </Form.Label>
               <Form.Control type="password" id="confirm-password" ref={confirmPasswordRef} className="m-2" />
-              <Button onClick={signUpHandler} className="signup-btn mx-auto m-2">
+              <Button type="submit" className="signup-btn mx-auto m-2">
                 <Stack direction="horizontal" className="sign-up-stack" gap={2}>
                   <div className="signup-btn-txt">Signup</div>
                   <div className="signup-btn-div" >
@@ -74,13 +123,13 @@ const Signup = () => {
               <Stack direction="horizontal" gap={2} className="signup-footer-stack m-2">
                 <div className="signup-footer-txt">Already an existing user ?</div>
                 <div onClick={toggleFormHandler} className="signup-footer-txt-link"
-                >Log in</div>
+                ><a>Log in</a></div>
               </Stack>
             </Form.Group>
           </Form>
         ) : (
-          <Form className="sign-up-form mx-auto">
-            <Form.Group as={Row} controlId="signinformgroup">
+          <Form className="sign-up-form mx-auto" onSubmit={loginHandler}>
+            <Form.Group as={Row}>
               <Form.Label htmlFor="email" column sm="2" className="form-label">
                 Email
               </Form.Label>
@@ -90,7 +139,7 @@ const Signup = () => {
               </Form.Label>
               <Form.Control type="password" id="password"  ref={passwordRef}  className="m-2"/>
             </Form.Group>
-            <Button onClick={loginHandler} className="signin-btn mx-auto m-2">
+            <Button type="submit" className="signin-btn mx-auto m-2">
               <Stack direction="horizontal" gap={2} className="sign-up-stack">
                 <div className="signup-btn-txt">Login</div>
                 <div className="signup-btn-div">

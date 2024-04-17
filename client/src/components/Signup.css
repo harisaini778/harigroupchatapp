@@ -130,6 +130,12 @@ body{
     color:rgb(7,94,84);
 }
 
+.signup-footer-txt-link:hover{
+color: black;
+border-bottom: 2px solid black;
+}
+
+
 @media (max-width:576px) {
     .signup-footer-txt-link{
         font-size: 1.2em !important;
