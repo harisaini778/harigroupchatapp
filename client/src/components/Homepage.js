@@ -1,5 +1,7 @@
 import React from "react";
 
+import { useState } from "react";
+
 import { Container,Row,Col,Button,Stack,Form,ListGroup,Image} from "react-bootstrap";
 
 import { FaSearch,FaCircle,FaPaperPlane } from "react-icons/fa";
@@ -9,8 +11,16 @@ import chatImg from "../components/assets/chat-2389223_1920.png";
 
 import "./Homepage.css";
 
+import ChatScreen from "./ChatScreen"
+
 
 const Homepage = () => {
+
+  const [isToggle,setIsToggle] = useState(false);
+
+  const startMessagingHandler = () => {
+    setIsToggle(true);
+  }
 
 
 
@@ -167,7 +177,9 @@ const Homepage = () => {
                   </Button>
                 </div> */}
 
-                <Stack direction="vertical" gap={2} className="mt-5">
+                { isToggle ? (<ChatScreen/>) 
+                : 
+                (<Stack direction="vertical" gap={2} className="mt-5">
 
                 <div className="brand-slogan-homepage">ChatCircle - Connect with Friends and Family Anytime, Anywhere!</div>
 
@@ -176,7 +188,7 @@ const Homepage = () => {
                 </div>
 
                 <div className="start-messaging-div">
-                  <Button className="start-messaging-btn">
+                  <Button className="start-messaging-btn" onClick={startMessagingHandler}>
                     <Stack direction="horizontal" gap={2}>
                     <div className="start-messaging-txt">Start Messaging</div>
                     <div className="start-messaging-icon"><FaPaperPlane/></div>
@@ -184,7 +196,7 @@ const Homepage = () => {
                   </Button>
                 </div>
 
-                </Stack>
+                </Stack>)}
 
                 </Col>
             </Row>
