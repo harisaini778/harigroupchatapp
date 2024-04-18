@@ -1,10 +1,14 @@
-import React, { useRef, useState,useEffect } from "react";
+import React, { useRef, useState,useEffect} from "react";
+import { useNavigate } from "react-router-dom";
 import { Container, Row, Form, Button, Stack } from "react-bootstrap";
 import { FaLock, FaSignInAlt } from "react-icons/fa";
 import "./Signup.css";
 import axios from "axios"
 
 const Signup = () => {
+
+  const navigate = useNavigate();
+
   const [isToggle, setIsToggle] = useState(false);
 
   const nameRef = useRef(null);
@@ -44,6 +48,10 @@ const Signup = () => {
     alert("Login Sucessful!");
 
     clearLoginFormDetails();
+
+    navigate("/homepage");
+
+
 
 
     } catch (err) {
@@ -132,19 +140,19 @@ const Signup = () => {
               <Form.Label htmlFor="name"  className="form-label">
                 Username
               </Form.Label>
-              <Form.Control type="text" id="name" ref={nameRef} className="m-2"/>
+              <Form.Control type="text" id="name" ref={nameRef} className="m-2"  required/>
               <Form.Label htmlFor="email"  className="form-label">
                 Email
               </Form.Label>
-              <Form.Control type="email" id="email" ref={emailRef} className="m-2"/>
+              <Form.Control type="email" id="email" ref={emailRef} className="m-2"  required/>
               <Form.Label htmlFor="password"  className="form-label">
                 Password
               </Form.Label>
-              <Form.Control type="password" id="password" ref={passwordRef} className="m-2" />
+              <Form.Control type="password" id="password" ref={passwordRef} className="m-2"  required />
               <Form.Label htmlFor="confirm-password" className="form-label">
                 Confirm Password
               </Form.Label>
-              <Form.Control type="password" id="confirm-password" ref={confirmPasswordRef} className="m-2" />
+              <Form.Control type="password" id="confirm-password" ref={confirmPasswordRef} className="m-2"  required/>
               <Button type="submit" className="signup-btn mx-auto m-2">
                 <Stack direction="horizontal" className="sign-up-stack" gap={2}>
                   <div className="signup-btn-txt">Signup</div>
@@ -166,11 +174,11 @@ const Signup = () => {
               <Form.Label htmlFor="email" column sm="2" className="form-label">
                 Email
               </Form.Label>
-              <Form.Control type="email" id="email" ref={emailRef} className="m-2"/>
+              <Form.Control type="email" id="email" ref={emailRef} className="m-2"  required/>
               <Form.Label htmlFor="password" column sm="2" className="form-label">
                 Password
               </Form.Label>
-              <Form.Control type="password" id="password"  ref={passwordRef}  className="m-2"/>
+              <Form.Control type="password" id="password"  ref={passwordRef}  className="m-2"  required/>
             </Form.Group>
             <Button type="submit" className="signin-btn mx-auto m-2">
               <Stack direction="horizontal" gap={2} className="sign-up-stack">

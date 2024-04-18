@@ -1,0 +1,94 @@
+/* .outer-container{
+    border : 2px solid rgb(7,94,84) !important;
+    border-radius: 20px !important;
+} */
+
+.inner-container {
+ 
+    padding: 0px !important;
+    margin: 0px !important;
+
+} 
+
+.user-list-group{
+    overflow-y: auto !important;
+    max-height: 650px !important;
+}
+.brand-slogan-homepage{
+    
+    font-size: "Montserrat" !important;
+    font-size: 3.0rem;
+    font-weight: bolder;
+    text-align: center;
+    color : rgb(7,94,84);
+
+}
+
+@media (max-width:576px) {
+    .brand-slogan-homepage{
+        font-size: 2.0rem;
+        padding: 10px;
+    }
+}
+
+
+.brand-img{
+ width: 50%;
+ height: 50%;
+}
+
+@media (max-width:576px) {
+    .brand-img{
+        width: 100%;
+        height: 100%;
+       }
+}
+
+.brand-img-div{
+    display: flex;
+    justify-content: center;
+}
+
+.search-icon-user{
+    color: white;
+}
+
+.search-icon-user:hover{
+    color: rgb(7,94,84);
+}
+.search-btn-user{
+    background-color: rgb(7,94,84) !important;
+}
+.search-btn-user:hover{
+    background-color: white !important;
+    color: rgb(7,94,84);
+    border: 2px solid rgb(7,94,84) !important;
+}
+.start-messaging-div{
+    display: flex;
+    justify-content: center;
+}
+.start-messaging-btn{
+ background-color: rgb(7,94,84) !important;
+ font-family: "Monsterrat" !important;
+}
+.start-messaging-btn:hover{
+    background-color: white !important;
+    border: 2px solid rgb(7,94,84) !important;
+    color: rgb(7,94,84) !important;
+}
+.start-messaging-txt{
+  font-size: 1.2rem !important;
+}
+
+.start-messaging-icon{
+  font-size: 1.2rem !important;
+}
+
+
+@media (max-width:576px) {
+    .user-list-col{
+      display: none !important;
+    }
+}
+
