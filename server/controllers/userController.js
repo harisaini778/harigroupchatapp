@@ -58,7 +58,7 @@ const postUserSignUp = async (req,res) =>{
        const hashPassword = await bcrypt.hash(password,12);
 
        const insertToDb = await userModel.create({
-        username,
+        name : username,
         email,
         password : hashPassword
        })

@@ -1,6 +1,9 @@
 const dotenv = require("dotenv");
 dotenv.config();
 const userRouter = require("./routes/userRoutes");
+const chatRouter = require("./controllers/chatController");
+const userModel = require("./models/userModel");
+const chatModel = require("./models/chatModel");
 const cors = require("cors");
 
 
@@ -17,7 +20,13 @@ app.use(express.static("client"));
 
 app.use(cors());
 
+
+userModel.hasMany(chatModel,{onDelete :"CASCADE",hooks:true});
+chatModel.belongsTo(userModel);
+
 app.use("/user",userRouter);
+
+app.use("/homepage",chatRouter);
 
 const PORT = process.env.PORT || 5000;
 
