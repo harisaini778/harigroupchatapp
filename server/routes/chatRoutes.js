@@ -6,6 +6,10 @@ const express = require("express");
 
 const router = express.Router();
 
-router.post("/chat", auth , chatController.sendMessage);
+router.post("/sendMessage",auth,chatController.sendMessage);
+
+router.get("/getMessage",chatController.getMessage);
 
 module.exports = router;
+
+

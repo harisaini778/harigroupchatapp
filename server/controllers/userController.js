@@ -2,7 +2,7 @@ const dotenv = require("dotenv");
 dotenv.config();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const userModel = require("../models/userModel");
+const Users = require("../models/userModel");
 
 const generateAccessToken = (id, email) => {
     return jwt.sign({ userId: id, email: email }, process.env.JWT_SECRET, { expiresIn: '1h' });
@@ -16,7 +16,7 @@ try {
 
     const {email,password} = req.body;
 
-    const user = await userModel.findOne({where : {email:email}});
+    const user = await Users.findOne({where : {email:email}});
 
     if(!user) {
 
@@ -49,7 +49,7 @@ const postUserSignUp = async (req,res) =>{
 
        const {username,email,password} = req.body;
 
-       const existingUser =  await userModel.findOne({where : {email:email}});
+       const existingUser =  await Users.findOne({where : {email:email}});
 
        if(existingUser) {
         return res.status(409).json({message : "Email already exists, please try login directly!"})
@@ -57,7 +57,7 @@ const postUserSignUp = async (req,res) =>{
 
        const hashPassword = await bcrypt.hash(password,12);
 
-       const insertToDb = await userModel.create({
+       const insertToDb = await Users.create({
         name : username,
         email,
         password : hashPassword

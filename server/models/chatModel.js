@@ -2,7 +2,7 @@ const sequelize = require("../utils/database");
 const {DataTypes}  = require("sequelize");
 
 
-const chatModel = sequelize.define("chat",{
+const Chats = sequelize.define("chats",{
     id : {
         type : DataTypes.INTEGER,
         autoIncrement : true,
@@ -18,7 +18,7 @@ const chatModel = sequelize.define("chat",{
     message : {
         type : DataTypes.STRING,
         allowNull:false,
-    }
+    },
 });
 
-module.exports = chatModel;
+module.exports = Chats;
