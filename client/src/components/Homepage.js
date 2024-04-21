@@ -2,10 +2,13 @@ import React from "react";
 
 import { useState,useEffect} from "react";
 
+import { useSelector,useDispatch } from "react-redux";
+
 import { Container,Row,Col,Button,Stack,Form,ListGroup,Image} from "react-bootstrap";
 
-import { FaSearch,FaCircle,FaPaperPlane } from "react-icons/fa";
+import { FaSearch,FaCircle,FaPaperPlane,FaCheckSquare } from "react-icons/fa";
 
+import { fetchUsers,toggleUserSelection } from "../store/userStore";
 
 import chatImg from "../components/assets/chat-2389223_1920.png";
 
@@ -13,44 +16,30 @@ import "./Homepage.css";
 
 import ChatScreen from "./ChatScreen"
 
-import axios from  'axios';
+
 
 
 const Homepage = () => {
 
-  const [isToggle,setIsToggle] = useState(false);
+  const dispatch = useDispatch();
 
-  const [allUsers,setAllUsers] = useState([]);
+  const allUsers = useSelector((state)=>state.userGroup.users);
+
+  const selectedUsers = useSelector((state)=>state.userGroup.selectedUsers);
+
+  const [isToggle,setIsToggle] = useState(false);
 
   const startMessagingHandler = () => {
     setIsToggle(true);
   }
 
-  useEffect(() => {
+  const handleUserSelection = (userId) =>{
+    dispatch(toggleUserSelection(userId));
+  }
 
-   const getUsers = async ()=> {
-    
-    try {
-      
-     const users = await  axios.get("http://localhost:5000/user/getAllUsers");
-
-     //console.log(users);
-
-     const data  = users.data.users;
-
-     console.log("users data from db : ",data);
-
-     setAllUsers(data);
-     
-    }catch (err) {
-      console.log("err while fetching the users : ",err);
-    }
-    
-   }
-
-  getUsers();
-
-  },[]);
+  useEffect(()=>{
+    dispatch(fetchUsers());
+  },[dispatch]);
 
 
 
@@ -78,6 +67,11 @@ const Homepage = () => {
                 <div>{user.updatedAt}</div>
                 </Stack>
               <FaCircle/>
+              <input
+               type="checkbox"
+               checked={selectedUsers.includes(user.id)}
+               onChange={()=>handleUserSelection(user.id)}
+              />
             </Stack>
             </ListGroup.Item>
             ))}
