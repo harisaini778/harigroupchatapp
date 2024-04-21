@@ -1,6 +1,6 @@
 import React from "react";
 
-import { useState } from "react";
+import { useState,useEffect} from "react";
 
 import { Container,Row,Col,Button,Stack,Form,ListGroup,Image} from "react-bootstrap";
 
@@ -13,14 +13,45 @@ import "./Homepage.css";
 
 import ChatScreen from "./ChatScreen"
 
+import axios from  'axios';
+
 
 const Homepage = () => {
 
   const [isToggle,setIsToggle] = useState(false);
 
+  const [allUsers,setAllUsers] = useState([]);
+
   const startMessagingHandler = () => {
     setIsToggle(true);
   }
+
+  useEffect(() => {
+
+   const getUsers = async ()=> {
+    
+    try {
+      
+     const users = await  axios.get("http://localhost:5000/user/getAllUsers");
+
+     //console.log(users);
+
+     const data  = users.data.users;
+
+     console.log("users data from db : ",data);
+
+     setAllUsers(data);
+     
+    }catch (err) {
+      console.log("err while fetching the users : ",err);
+    }
+    
+   }
+
+  getUsers();
+
+  },[]);
+
 
 
 
@@ -39,126 +70,18 @@ const Homepage = () => {
 
             <ListGroup className="user-list-group">
               
-            <ListGroup.Item>
-                <Stack direction="horizontal" gap={1}>
-                    <Stack direction="vertical">
-                    <div>User 1</div>
-                    <div>Last seen 7:00pm</div>
-                    </Stack>
-                  <FaCircle/>
+            {allUsers.map((user)=>(
+            <ListGroup.Item key={user.id}>
+            <Stack direction="horizontal" gap={1}>
+                <Stack direction="vertical">
+                <div>{user.name}</div>
+                <div>{user.updatedAt}</div>
                 </Stack>
+              <FaCircle/>
+            </Stack>
             </ListGroup.Item>
+            ))}
 
-            <ListGroup.Item>
-                <Stack direction="horizontal" gap={1}>
-                    <Stack direction="vertical">
-                    <div>User 1</div>
-                    <div>Last seen 7:00pm</div>
-                    </Stack>
-                  <FaCircle/>
-                </Stack>
-            </ListGroup.Item>
-
-            <ListGroup.Item>
-                <Stack direction="horizontal" gap={1}>
-                    <Stack direction="vertical">
-                    <div>User 1</div>
-                    <div>Last seen 7:00pm</div>
-                    </Stack>
-                  <FaCircle/>
-                </Stack>
-            </ListGroup.Item> 
-
-            <ListGroup.Item>
-                <Stack direction="horizontal" gap={1}>
-                    <Stack direction="vertical">
-                    <div>User 1</div>
-                    <div>Last seen 7:00pm</div>
-                    </Stack>
-                  <FaCircle/>
-                </Stack>
-            </ListGroup.Item>
-
-            <ListGroup.Item>
-                <Stack direction="horizontal" gap={1}>
-                    <Stack direction="vertical">
-                    <div>User 1</div>
-                    <div>Last seen 7:00pm</div>
-                    </Stack>
-                  <FaCircle/>
-                </Stack>
-            </ListGroup.Item>
-
-            <ListGroup.Item>
-                <Stack direction="horizontal" gap={1}>
-                    <Stack direction="vertical">
-                    <div>User 1</div>
-                    <div>Last seen 7:00pm</div>
-                    </Stack>
-                  <FaCircle/>
-                </Stack>
-            </ListGroup.Item>
-
-            <ListGroup.Item>
-                <Stack direction="horizontal" gap={1}>
-                    <Stack direction="vertical">
-                    <div>User 1</div>
-                    <div>Last seen 7:00pm</div>
-                    </Stack>
-                  <FaCircle/>
-                </Stack>
-            </ListGroup.Item>
-
-            <ListGroup.Item>
-                <Stack direction="horizontal" gap={1}>
-                    <Stack direction="vertical">
-                    <div>User 1</div>
-                    <div>Last seen 7:00pm</div>
-                    </Stack>
-                  <FaCircle/>
-                </Stack>
-            </ListGroup.Item>
-
-            <ListGroup.Item>
-                <Stack direction="horizontal" gap={1}>
-                    <Stack direction="vertical">
-                    <div>User 1</div>
-                    <div>Last seen 7:00pm</div>
-                    </Stack>
-                  <FaCircle/>
-                </Stack>
-            </ListGroup.Item>
-
-            <ListGroup.Item>
-                <Stack direction="horizontal" gap={1}>
-                    <Stack direction="vertical">
-                    <div>User 1</div>
-                    <div>Last seen 7:00pm</div>
-                    </Stack>
-                  <FaCircle/>
-                </Stack>
-            </ListGroup.Item>
-
-            <ListGroup.Item>
-                <Stack direction="horizontal" gap={1}>
-                    <Stack direction="vertical">
-                    <div>User 1</div>
-                    <div>Last seen 7:00pm</div>
-                    </Stack>
-                  <FaCircle/>
-                </Stack>
-            </ListGroup.Item>
-
-            <ListGroup.Item>
-                <Stack direction="horizontal" gap={1}>
-                    <Stack direction="vertical">
-                    <div>User 1</div>
-                    <div>Last seen 7:00pm</div>
-                    </Stack>
-                  <FaCircle/>
-                </Stack>
-            </ListGroup.Item>
-          
             </ListGroup>
                 
                 </Col>

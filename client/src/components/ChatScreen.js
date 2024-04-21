@@ -1,15 +1,27 @@
 import React, { useState, useEffect } from "react";
-import { Container, Row, Col, Form, Button,Stack } from 'react-bootstrap';
+import { Container, Row, Col, Form, Button,Stack, ListGroup, ListGroupItem } from 'react-bootstrap';
+import {AiOutlineMore,AiOutlinePlus,AiOutlineUsergroupAdd} from "react-icons/ai"
 import axios from "axios";
 import "./ChatScreen.css";
 
 const ChatScreen = () => {
+
     const [messages, setMessages] = useState([]);
+
     const [newMessage, setNewMessage] = useState('');
 
+    const [showListGroup,setShowListGroup] =  useState(false);
+
+    const listGroupHandler =  () => {
+        setShowListGroup(!showListGroup);
+    }
+
     useEffect(() => {
+
         const getChat = async () => {
+
             try {
+
                 // Fetch messages from local storage
                 const storedMessages = JSON.parse(localStorage.getItem("chatMessages")) || [];
                 setMessages(storedMessages);
@@ -31,6 +43,7 @@ const ChatScreen = () => {
 
                 // Save updated messages in local storage
                 localStorage.setItem("chatMessages", JSON.stringify(updatedMessages));
+
             } catch (err) {
                 console.log("Error while fetching the chat:", err);
             }
@@ -84,7 +97,26 @@ const ChatScreen = () => {
         <div className="outer-chat-div p-4">
             <Row>
                 <Col md={12}>
+                    <Stack direction="horizontal"> 
                     <h3 className="border-bottom pb-3">Group Chat</h3>
+                    <Stack direction="horizontal" gap={2} className="ms-auto">
+                    {showListGroup && <ListGroup className="ms-auto m-0">
+                        <ListGroupItem>
+                            <Stack direction="horizontal" gap={2}>
+                             <AiOutlinePlus/>
+                             <div>Add To Group</div>
+                            </Stack>
+                        </ListGroupItem>
+                        <ListGroupItem>
+                            <Stack direction="horizontal" gap={2}>
+                             <AiOutlineUsergroupAdd/>
+                             <div>Create A Group</div>
+                            </Stack>
+                        </ListGroupItem>
+                    </ListGroup>}
+                        <AiOutlineMore className="ms-auto more-icon" onClick={listGroupHandler}/>
+                    </Stack>   
+                    </Stack>    
                     <div className="chat-messages chat-container">
                         {messages.map((msg, index) => (
                             <div key={index} className={`message ${msg.user === 'Me' ? 'sent' : 'received'}`}>

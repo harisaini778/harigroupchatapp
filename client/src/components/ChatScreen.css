@@ -78,4 +78,13 @@
       padding: 8px 16px;
     }
   }
-  
+
+  .more-icon-div{
+    position: static !important;
+    left: 60% !important;
+  }
+
+  .more-icon{
+    margin: 20px !important;
+    font-size: 2.2rem !important;
+  }

@@ -74,4 +74,18 @@ const postUserSignUp = async (req,res) =>{
     }
     }
 
-    module.exports = {postUserLogin,postUserSignUp};
+    const getAllUsers = async (req,res) => {
+
+      try{
+
+        const users = await Users.findAll();
+        return res.status(200).json({users : users});
+
+      }catch (err) {
+        console.log("err while fetching the users frm the db : ",err);
+        return res.status(500).json({errMsg : err},{message : "Some  error occured , please try again later!"})
+      }
+
+    }
+
+    module.exports = {postUserLogin,postUserSignUp,getAllUsers};
