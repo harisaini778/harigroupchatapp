@@ -19,6 +19,7 @@ import ChatScreen from "./ChatScreen"
 
 
 
+
 const Homepage = () => {
 
   const dispatch = useDispatch();
@@ -28,6 +29,11 @@ const Homepage = () => {
   const selectedUsers = useSelector((state)=>state.userGroup.selectedUsers);
 
   const [isToggle,setIsToggle] = useState(false);
+
+
+
+
+
 
   const startMessagingHandler = () => {
     setIsToggle(true);
@@ -81,18 +87,6 @@ const Homepage = () => {
                 </Col>
 
                 <Col md={8} lg={8}>
-
-                {/* <Container className="mt-5 mb-5 brand-slogan-container">
-                <div className="brand-slogan-homepage">ChatCircle - Connect with Friends and Family Anytime, Anywhere!</div>
-                </Container>
-                <div>
-                <Image src={chatImg} className="brand-img" roundedCircle fluid/>
-                </div>
-                <div>
-                  <Button>
-                    Start Messaging
-                  </Button>
-                </div> */}
 
                 { isToggle ? (<ChatScreen/>) 
                 : 

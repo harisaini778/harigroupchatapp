@@ -10,6 +10,8 @@ router.post("/sendMessage",auth,chatController.sendMessage);
 
 router.get("/getMessage",chatController.getMessage);
 
+router.get('/messages/:groupId', chatController.getGroupMessages);
+
 module.exports = router;
 
 

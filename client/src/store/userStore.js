@@ -36,12 +36,6 @@ const userGroupSlice = createSlice({
           state.selectedUsers = state.selectedUsers.filter((id) => id !== userId);
         }
       },
-      createGroup: (state) => {
-        const selectedUsers = state.users.filter((user) => user.selected);
-        state.groups.push(selectedUsers);
-        state.selectedUsers = [];
-        state.users = state.users.map((user) => ({ ...user, selected: false }));
-      },
       addUserToGroup: (state, action) => {
         const { groupId, userId } = action.payload;
         const groupIndex = state.groups.findIndex((group) => group.id === groupId);
@@ -84,7 +78,6 @@ export const sendSelectedUsers = () => async(dispatch,getState) => {
 
     setUsers,
     toggleUserSelection,
-    createGroup,
     addUserToGroup,
 
 } = userGroupSlice.actions;

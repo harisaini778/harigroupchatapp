@@ -1,0 +1,11 @@
+.select-admin-list{
+    max-height: 100px;
+    overflow-y: auto;
+}
+.create-group-div{
+  position: absolute; /* Set the overlay to absolute positioning */
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+  color: white;
+  z-index: 1; /* Higher z-index to overlay on top of content */
+  margin-top: 200px !important;
+}

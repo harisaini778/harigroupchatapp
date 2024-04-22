@@ -15,8 +15,8 @@ const sendMessage = async (req,res) => {
      console.log("req object : ",req.body,req.user.dataValues);
 
      await Chats.create({
-        name : req.user.name,
         message : req.body.message,
+        global : true,
         userId : req.user.id,
      });
     
@@ -45,4 +45,16 @@ const getMessage = async (req,res) => {
 
 }
 
-module.exports = {sendMessage,getMessage};
+const getGroupMessages = async (req, res) => {
+    const { groupId } = req.params;
+
+    try {
+        const messages = await Chat.findAll({ where: { groupId } });
+        res.status(200).json({ messages });
+    } catch (err) {
+        console.log('Error fetching group messages:', err);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
+module.exports = {sendMessage,getMessage,getGroupMessages};

@@ -2,6 +2,7 @@ const dotenv = require("dotenv");
 dotenv.config();
 const userRouter = require("./routes/userRoutes");
 const chatRouter = require("./routes/chatRoutes");
+const groupRouter = require("./routes/groupRoutes");
 const cors = require("cors");
 
 
@@ -18,16 +19,11 @@ app.use(express.static("client"));
 
 app.use(cors());
 
-const Users = require("./models/userModel");
-const Chats = require("./models/chatModel");
-
-Users.hasMany(Chats,{onDelete : "CASCADE", hooks: true});
-Chats.belongsTo(Users);
-
-
 app.use("/user",userRouter);
 
 app.use("/chat",chatRouter);
+
+app.use("/groups",groupRouter);
 
 
 const PORT = process.env.PORT || 5000;

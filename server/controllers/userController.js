@@ -88,4 +88,18 @@ const postUserSignUp = async (req,res) =>{
 
     }
 
-    module.exports = {postUserLogin,postUserSignUp,getAllUsers};
+    const getUserById = async (req, res) => {
+        try {
+            const { userId } = req.params;
+            const user = await Users.findByPk(userId);
+            if (!user) {
+                return res.status(404).json({ message: 'User not found' });
+            }
+            return res.status(200).json({ user });
+        } catch (err) {
+            console.log('Error fetching user details:', err);
+            return res.status(500).json({ message: 'Internal server error' });
+        }
+    };
+
+    module.exports = {postUserLogin,postUserSignUp,getAllUsers,getUserById};
