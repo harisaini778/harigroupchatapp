@@ -14,6 +14,7 @@ const initialState = {
   groupIsClicked : false,
   chatScreenIsClicked : false,
   isToggle : true,
+  allNewMembers : [],
 
 }
 
@@ -39,6 +40,15 @@ const groupSlice = createSlice({
             state.selectedMembers = state.selectedMembers.includes(memberId)
             ? state.selectedMembers.filter((id)=>id !== memberId)
             : [...state.selectedMembers,memberId];
+        },
+
+        toggleGroupSelection : (state,action) => {
+
+            const groupId = action.payload;
+
+            state.allGroups = state.allGroups.includes(groupId) ?  
+
+            state.allGroups.filter((id)=> id!==groupId) : [...state.allGroups,groupId] ;
         },
         clearGroupCreation : (state) => {
             state.groupName = "";
@@ -77,7 +87,11 @@ const groupSlice = createSlice({
             state.isToggle = false;
             state.groupIsClicked = false;
             
-          }
+          },
+
+          setAllNewMembers : (state,action) => {
+            state.allNewMembers = action.payload
+          },
 
     }
 
@@ -88,6 +102,7 @@ export const {
     setSelectedAdmins,
     deselectAdmin,
     toggleMemberSelection,
+    toggleGroupSelection,
     clearGroupCreation,
     createGroupRequest,
     createGroupSuccess,
@@ -96,7 +111,8 @@ export const {
     setGroupDetails,
     setGroupIsClicked,
     setIsToggle,
-    setChatScreenIsClicked
+    setChatScreenIsClicked,
+    setAllNewMembers,
 }   = groupSlice.actions;
 
 
@@ -113,6 +129,29 @@ export const getAllGroups = () => async (dispatch) => {
 
         console.log("Error fetching the users : ",err);
 
+
+    }
+}
+
+export const getAllNewMembersToAdd = () =>async (dispatch) => {
+
+    try {
+
+        const group = JSON.parse(localStorage.getItem("group"));
+        
+        const groupId = group.id;
+
+        const response = await axios.get(`http://localhost:5000/userGroups/getAllNewMembers/${groupId}`);
+
+        // console.log("Res from the getAllNewMembersToAdd fn : ",response.data);
+
+        dispatch(setAllNewMembers((response.data.newMembersToAdd)));
+
+        
+
+    }catch(err) {
+       
+        console.log("Err occured while fetching new members : ",err);
 
     }
 }

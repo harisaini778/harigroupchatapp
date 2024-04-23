@@ -4,25 +4,29 @@ import { AiOutlineMore, AiOutlinePlus, AiOutlineUsergroupAdd } from "react-icons
 import axios from "axios";
 import "./ChatScreen.css";
 import CreateGroup from "./CreateGroup";
+import AddUserToGroup from "./AddUserToGroup";
 
 const GroupChatScreen = () => {
 
     const groupData = JSON.parse(localStorage.getItem("group"));
 
-    const groupId = groupData.id;
+    const groupId = groupData.id || null;
+
+    const groupName = groupData.name;
 
   
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState('');
     const [showListGroup, setShowListGroup] = useState(false);
-    const [createGroupToggle, setCreateGroupToggle] = useState(false);
+
+    const [addToGroupToggle, setAddToGroupToggle] = useState(false);
 
     const listGroupHandler = () => {
         setShowListGroup(!showListGroup);
     };
 
-    const toggleGroupHandler = () => {
-        setCreateGroupToggle(!createGroupToggle);
+    const toggleAddToGroupHandler = () => {
+        setAddToGroupToggle(!addToGroupToggle);
     };
 
     useEffect(() => {
@@ -117,22 +121,22 @@ const GroupChatScreen = () => {
             <Row>
                 <Col md={12}>
                     <Stack direction="horizontal">
-                        <h3 className="border-bottom pb-3">Group Chat</h3>
+                        <h3 className="border-bottom pb-3">{groupName}</h3>
                         <Stack direction="horizontal" gap={5} className="ms-auto">
-                            {createGroupToggle && <CreateGroup />}
+                            {addToGroupToggle && <AddUserToGroup />}
                             {showListGroup && <ListGroup className="ms-auto m-0">
                                 <ListGroupItem>
                                     <Stack direction="horizontal" gap={2}>
                                         <AiOutlinePlus />
-                                        <div>Add To Group</div>
+                                        <div onClick={toggleAddToGroupHandler} >Add To Group</div>
                                     </Stack>
                                 </ListGroupItem>
-                                <ListGroupItem>
+                                {/* <ListGroupItem>
                                     <Stack direction="horizontal" gap={2}>
                                         <AiOutlineUsergroupAdd />
                                         <div onClick={toggleGroupHandler}>Create A Group</div>
                                     </Stack>
-                                </ListGroupItem>
+                                </ListGroupItem> */}
                             </ListGroup>}
                             <AiOutlineMore className="ms-auto more-icon" onClick={listGroupHandler} />
                         </Stack>

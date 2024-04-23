@@ -3,6 +3,7 @@ dotenv.config();
 const userRouter = require("./routes/userRoutes");
 const chatRouter = require("./routes/chatRoutes");
 const groupRouter = require("./routes/groupRoutes");
+const userGroupRouter = require("./routes/userGroupRoutes");
 const cors = require("cors");
 
 
@@ -25,6 +26,7 @@ app.use("/chat",chatRouter);
 
 app.use("/groups",groupRouter);
 
+app.use("/userGroups",userGroupRouter);
 
 const PORT = process.env.PORT || 5000;
 
