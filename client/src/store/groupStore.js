@@ -9,6 +9,11 @@ const initialState = {
   selectedMembers:[],
   isLoading: false,
   creatingGroup :false,
+  allGroups : [],
+  groupDetails : {},
+  groupIsClicked : false,
+  chatScreenIsClicked : false,
+  isToggle : true,
 
 }
 
@@ -49,6 +54,30 @@ const groupSlice = createSlice({
           createGroupFailure: (state) => {
             state.creatingGroup = false;
           },
+          setAllGroups : (state,action) => {
+            state.allGroups = action.payload;
+          },
+          setGroupDetails: (state, action) => {
+            localStorage.removeItem("group");
+            localStorage.setItem("group", JSON.stringify(action.payload));
+            state.groupDetails = localStorage.getItem("group");
+          },
+          setGroupIsClicked : (state,action) => {
+            state.groupIsClicked = action.payload;
+            state.isToggle = false;
+            state.chatScreenIsClicked = false;
+          },
+          setIsToggle : (state,action) => {
+            state.isToggle = action.payload;
+            state.groupIsClicked = false;
+            state.chatScreenIsClicked = false;
+          },
+          setChatScreenIsClicked : (state,action) => {
+            state.chatScreenIsClicked = action.payload;
+            state.isToggle = false;
+            state.groupIsClicked = false;
+            
+          }
 
     }
 
@@ -63,7 +92,31 @@ export const {
     createGroupRequest,
     createGroupSuccess,
     createGroupFailure,
+    setAllGroups,
+    setGroupDetails,
+    setGroupIsClicked,
+    setIsToggle,
+    setChatScreenIsClicked
 }   = groupSlice.actions;
+
+
+export const getAllGroups = () => async (dispatch) => {
+
+    try  {
+    
+         const response = await axios.get("http://localhost:5000/groups/getAllGroups");
+
+         dispatch(setAllGroups(response.data.groups));
+
+
+    } catch(err) {
+
+        console.log("Error fetching the users : ",err);
+
+
+    }
+}
+
 
 export const createGroup = (groupData) =>  async (dispatch) => {
 
@@ -94,5 +147,7 @@ export const createGroup = (groupData) =>  async (dispatch) => {
         dispatch(createGroupFailure());
     }
 }
+
+
 
 export default groupSlice.reducer;

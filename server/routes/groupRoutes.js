@@ -8,4 +8,6 @@ router.post("/createGroup",groupController.createGroup);
 
 router.get("/getAllUsers",groupController.getAllUsers);
 
+router.get("/getAllGroups",groupController.getAllGroups);
+
 module.exports = router;

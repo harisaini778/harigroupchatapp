@@ -4,17 +4,23 @@ import { useState,useEffect} from "react";
 
 import { useSelector,useDispatch } from "react-redux";
 
-import { Container,Row,Col,Button,Stack,Form,ListGroup,Image} from "react-bootstrap";
+import { Container,Row,Col,Button,Stack,Form,ListGroup,Image, ListGroupItem} from "react-bootstrap";
 
 import { FaSearch,FaCircle,FaPaperPlane,FaCheckSquare } from "react-icons/fa";
 
 import { fetchUsers,toggleUserSelection } from "../store/userStore";
+
+import { getAllGroups,setGroupDetails,setGroupIsClicked,setIsToggle,setChatScreenIsClicked} from "../store/groupStore";
+
 
 import chatImg from "../components/assets/chat-2389223_1920.png";
 
 import "./Homepage.css";
 
 import ChatScreen from "./ChatScreen"
+
+import GroupChatScreen from "./GroupChatScreen";
+
 
 
 
@@ -28,7 +34,15 @@ const Homepage = () => {
 
   const selectedUsers = useSelector((state)=>state.userGroup.selectedUsers);
 
-  const [isToggle,setIsToggle] = useState(false);
+  const groups = useSelector((state)=>state.userGroupCreation.allGroups);
+
+  //const groupDetails = useSelector((state)=>state.userGroupCreation.groupDetails);
+
+  const groupIsClicked = useSelector((state)=>state.userGroupCreation.groupIsClicked);
+
+  const isToggle = useSelector((state)=>state.userGroupCreation.isToggle);
+
+  const chatScreenIsClicked = useSelector((state)=>state.userGroupCreation.chatScreenIsClicked);
 
 
 
@@ -36,7 +50,7 @@ const Homepage = () => {
 
 
   const startMessagingHandler = () => {
-    setIsToggle(true);
+   dispatch(setChatScreenIsClicked(!chatScreenIsClicked))
   }
 
   const handleUserSelection = (userId) =>{
@@ -45,10 +59,16 @@ const Homepage = () => {
 
   useEffect(()=>{
     dispatch(fetchUsers());
-  },[dispatch]);
+    dispatch(getAllGroups());
+  },[]);
 
+  const groupHandler = (group) => {
+    
+    dispatch(setGroupDetails(group));
 
+    dispatch(setGroupIsClicked(!groupIsClicked));
 
+  }
 
     return (
         <div className="outer-container">
@@ -62,6 +82,17 @@ const Homepage = () => {
             <FaSearch className="search-icon-user"/>
             </Button>
             </Stack>
+
+            <ListGroup className="user-list-allGroups">
+              {groups.map((group) => (
+                <ListGroupItem key={group.id} onClick={()=>groupHandler(group)}>
+                  <Stack direction="horizontal" >
+                    <div className="me-auto">{group.name}</div>
+                    <div className="ms-auto">{group.updatedAt}</div>
+                  </Stack>
+                </ListGroupItem>
+              ))}
+            </ListGroup>
 
             <ListGroup className="user-list-group">
               
@@ -87,9 +118,10 @@ const Homepage = () => {
                 </Col>
 
                 <Col md={8} lg={8}>
-
-                { isToggle ? (<ChatScreen/>) 
-                : 
+                
+                {groupIsClicked && <GroupChatScreen/>}
+                { chatScreenIsClicked && (<ChatScreen/>) }
+                { isToggle &&
                 (<Stack direction="vertical" gap={2} className="mt-5">
 
                 <div className="brand-slogan-homepage">ChatCircle - Connect with Friends and Family Anytime, Anywhere!</div>

@@ -40,6 +40,26 @@ const createGroup = async (req, res) => {
     }
 };
 
+const getAllGroups = async (req,res) => {
+
+    try {
+         
+    const groups = await Groups.findAll();
+
+    return res.status(200).json({groups:groups});
+
+    }catch (err) {
+
+        console.log(err);
+
+        return res.status(500).json({message : "Unable to find groups", errMsg : err});
+
+    }
+
+
+
+}
+
 // Get All Users Controller
 const getAllUsers = async (req, res) => {
     try {
@@ -51,4 +71,4 @@ const getAllUsers = async (req, res) => {
     }
 };
 
-module.exports = { createGroup, getAllUsers };
+module.exports = { createGroup,getAllGroups, getAllUsers };

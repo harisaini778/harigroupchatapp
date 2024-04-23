@@ -5,7 +5,13 @@ import axios from "axios";
 import "./ChatScreen.css";
 import CreateGroup from "./CreateGroup";
 
-const ChatScreen = () => {
+const GroupChatScreen = () => {
+
+    const groupData = JSON.parse(localStorage.getItem("group"));
+
+    const groupId = groupData.id;
+
+  
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState('');
     const [showListGroup, setShowListGroup] = useState(false);
@@ -22,15 +28,17 @@ const ChatScreen = () => {
     useEffect(() => {
 
         const getChat = async () => {
+
             try {
+
                 // Fetch messages from local storage
-                const storedMessages = JSON.parse(localStorage.getItem("chatMessages")) || [];
+                const storedMessages = JSON.parse(localStorage.getItem("groupChatMessages")) || [];
                 setMessages(storedMessages);
     
                 // Fetch new messages from the backend
-                const res = await axios.get("http://localhost:5000/chat/getMessage");
+                const res = await axios.get(`http://localhost:5000/chat/getGroupMessages/${groupId}`);
                 const newMessages = res.data.messages;
-    
+
                 // Fetch user names for each message
                 const userIds = newMessages.map(message => message.userId);
                 const userDetailsPromises = userIds.map(async userId => {
@@ -79,8 +87,8 @@ const ChatScreen = () => {
                 };
 
                 const sentMessage = await axios.post(
-                    "http://localhost:5000/chat/sendMessage",
-                    { message: newMessage },
+                    "http://localhost:5000/chat/sendGroupMessages",
+                    { message: newMessage,groupId:groupId,global:false,userId:user.userId },
                     { headers }
                 );
 
@@ -91,7 +99,7 @@ const ChatScreen = () => {
                 if (updatedMessages.length > 10) {
                     updatedMessages.splice(0, updatedMessages.length - 10);
                 }
-                localStorage.setItem("chatMessages", JSON.stringify(updatedMessages));
+                localStorage.setItem("groupChatMessages", JSON.stringify(updatedMessages));
 
                 // Update state with the recent chats
                 setMessages(updatedMessages);
@@ -161,4 +169,4 @@ const ChatScreen = () => {
     );
 };
 
-export default ChatScreen;
+export default GroupChatScreen;

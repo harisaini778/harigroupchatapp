@@ -45,7 +45,7 @@ const Signup = () => {
     console.log("res form useEffect : ",res)
     localStorage.setItem("user", JSON.stringify({ userId, email, token }));
 
-    alert("Login Sucessful!");
+    alert("Login Sucessful!"); 
 
     clearLoginFormDetails();
 

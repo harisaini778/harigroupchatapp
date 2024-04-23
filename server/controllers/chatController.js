@@ -45,11 +45,37 @@ const getMessage = async (req,res) => {
 
 }
 
+
+const sendGroupMessages = async (req,res) => {
+
+ try {
+
+    const {message,global,userId,groupId} = req.body;
+
+    const  groupChat = Chats.create({
+        message,
+        global,
+        userId,
+        groupId,
+    });
+
+    return res.status(200).json({groupChat : groupChat});
+
+ }catch(err) {
+     res.status(500).json({message : "Err occured while creating groupChat", errMsg: err});
+ }
+
+}
+
+
 const getGroupMessages = async (req, res) => {
+    
     const { groupId } = req.params;
 
+    console.log(groupId + ' is the id of the group');
+
     try {
-        const messages = await Chat.findAll({ where: { groupId } });
+        const messages = await Chats.findAll({ where: { groupId } });
         res.status(200).json({ messages });
     } catch (err) {
         console.log('Error fetching group messages:', err);
@@ -57,4 +83,4 @@ const getGroupMessages = async (req, res) => {
     }
 };
 
-module.exports = {sendMessage,getMessage,getGroupMessages};
+module.exports = {sendMessage,getMessage,getGroupMessages,sendGroupMessages};
