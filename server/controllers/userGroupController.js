@@ -72,25 +72,65 @@ const getAdminInfo =  async (req,res) => {
   }
 }
 
+// const addNewUsersToUserGroups = async (req, res) => {
+//   try {
+//     const { admins, members, groupId } = req.body.newMembersData;
+
+//     console.log("Req.body in addNewUsersToUserGroups fn :  ",req.body.admins,req.body.members);
+
+//     // Assuming admins and members are arrays of user IDs
+
+//     // Add admins to user groups with isAdmin true
+//     await Promise.all(
+//       admins.map(async (adminId) => {
+//         await UserGroups.create({ userId: adminId, isAdmin: true,groupId });
+//       })
+//     );
+
+//     // Add members to user groups with isAdmin false
+//     await Promise.all(
+//       members.map(async (memberId) => {
+//         await UserGroups.create({ userId: memberId, isAdmin: false,groupId });
+//       })
+//     );
+
+//     res.status(200).json({ message: "New users added to user groups successfully." });
+//   } catch (err) {
+//     console.log("Error adding new users to user groups:", err);
+//     res.status(500).json({ message: "Internal server error" });
+//   }
+// };
+
 const addNewUsersToUserGroups = async (req, res) => {
   try {
     const { admins, members, groupId } = req.body.newMembersData;
 
-    console.log("Req.body in addNewUsersToUserGroups fn :  ",req.body.admins,req.body.members);
+    // Check if the users already exist in the group
+    const existingUsers = await UserGroups.findAll({
+      where: {
+        userId: { [Op.in]: [...admins, ...members] },
+        groupId: groupId,
+      },
+    });
 
-    // Assuming admins and members are arrays of user IDs
+    // Delete existing entries for the users in the group
+    await Promise.all(
+      existingUsers.map(async (user) => {
+        await user.destroy();
+      })
+    );
 
     // Add admins to user groups with isAdmin true
     await Promise.all(
       admins.map(async (adminId) => {
-        await UserGroups.create({ userId: adminId, isAdmin: true,groupId });
+        await UserGroups.create({ userId: adminId, isAdmin: true, groupId });
       })
     );
 
     // Add members to user groups with isAdmin false
     await Promise.all(
       members.map(async (memberId) => {
-        await UserGroups.create({ userId: memberId, isAdmin: false,groupId });
+        await UserGroups.create({ userId: memberId, isAdmin: false, groupId });
       })
     );
 
@@ -100,5 +140,6 @@ const addNewUsersToUserGroups = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
 
 module.exports = {getAllNewMembers,getAdminInfo,getAllAdminsToAdd,addNewUsersToUserGroups};

@@ -124,8 +124,12 @@ export const {
 export const getAllGroups = () => async (dispatch) => {
 
     try  {
+
+      const user = JSON.parse(localStorage.getItem("user"));
+
+      const userId = user.userId;
     
-         const response = await axios.get("http://localhost:5000/groups/getAllGroups");
+         const response = await axios.get(`http://localhost:5000/groups/getAllGroups/${userId}`);
 
          dispatch(setAllGroups(response.data.groups));
 

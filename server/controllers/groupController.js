@@ -1,4 +1,6 @@
 // Import necessary models
+const { Sequelize } = require('sequelize');
+const {Op} = require("sequelize");
 const Groups = require('../models/groupModel');
 const UserGroup = require('../models/userGroup');
 const Users = require('../models/userModel');
@@ -43,8 +45,16 @@ const createGroup = async (req, res) => {
 const getAllGroups = async (req,res) => {
 
     try {
-         
-    const groups = await Groups.findAll();
+    
+    const {userId} = req.params;
+
+    const data = await UserGroup.findAll({where : {userId:userId}});
+
+    const groupIds = data.map((item)=>item.groupId);
+
+    const groups = await Groups.findAll({where : {id : {
+        [Sequelize.Op.in] : groupIds,
+    }}})
 
     return res.status(200).json({groups:groups});
 
@@ -55,9 +65,6 @@ const getAllGroups = async (req,res) => {
         return res.status(500).json({message : "Unable to find groups", errMsg : err});
 
     }
-
-
-
 }
 
 // Get All Users Controller
