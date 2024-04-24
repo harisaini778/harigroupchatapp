@@ -15,6 +15,7 @@ const initialState = {
   chatScreenIsClicked : false,
   isToggle : true,
   allNewMembers : [],
+  allNewAdmins : [],
 
 }
 
@@ -92,6 +93,9 @@ const groupSlice = createSlice({
           setAllNewMembers : (state,action) => {
             state.allNewMembers = action.payload
           },
+          setAllNewAdmins : (state,action) => {
+            state.allNewAdmins  = action.payload
+          },
 
     }
 
@@ -113,6 +117,7 @@ export const {
     setIsToggle,
     setChatScreenIsClicked,
     setAllNewMembers,
+    setAllNewAdmins,
 }   = groupSlice.actions;
 
 
@@ -156,6 +161,69 @@ export const getAllNewMembersToAdd = () =>async (dispatch) => {
     }
 }
 
+export const getAllNewAdminsToAdd = () => async(dispatch,getState) =>{
+
+try {
+
+  const group = JSON.parse(localStorage.getItem("group"));
+
+  const groupId = group.id;
+
+  const response = await axios.get(`http://localhost:5000/userGroups/getAllAdminsToAdd/${groupId}`);
+
+   const arr1 = response.data.newAdminsToAdd;
+
+   console.log("Arr1 is : ",arr1);
+
+   const arr2 = getState().userGroupCreation.allNewMembers;
+
+   console.log("Arr2 is : ",arr2);
+
+   const arr = [...arr1,...arr2];
+
+   console.log("arr is :",arr);
+
+   dispatch(setAllNewAdmins(arr));
+
+
+
+
+
+} catch(err) {
+
+}
+
+}
+
+
+export const addNewMembersToTheGroup = (newMembersData) => async (dispatch) => {
+
+try {
+
+  
+  const user = JSON.stringify(localStorage.getItem("user"));
+
+  const token = user.token;
+
+  const headers = {
+
+      "Content-Type" : "application/json",
+      Authorization : token,
+  }
+
+  const response = await axios.post("http://localhost:5000/userGroups/addNewUsersToUserGroups",{newMembersData},{headers});
+
+  console.log("Group created successfully : ", response.data);
+
+
+} catch (err) {
+    
+  console.log(err);
+  console.log("Error creating group : ",err);
+
+}
+
+}
 
 export const createGroup = (groupData) =>  async (dispatch) => {
 

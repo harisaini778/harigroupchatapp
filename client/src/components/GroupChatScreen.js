@@ -8,12 +8,37 @@ import AddUserToGroup from "./AddUserToGroup";
 
 const GroupChatScreen = () => {
 
+    const [isAdmin, setIsAdmin] = useState(false);
+
     const groupData = JSON.parse(localStorage.getItem("group"));
 
     const groupId = groupData.id || null;
 
     const groupName = groupData.name;
 
+    const user = JSON.parse(localStorage.getItem("user"));
+          
+    const userId = user.userId;
+
+    const getAdminInfo = async () => {
+
+        try {
+
+            const res = await axios.get(`http://localhost:5000/userGroups/getAdminInfo?userId=${userId}&groupId=${groupId}`);
+
+            const data = res.data.adminData[0];
+
+            console.log(data);
+
+            setIsAdmin(data.isAdmin);
+
+            console.log("isAdmin : ", isAdmin);
+
+
+        } catch (err) {
+          console.log("Err occured while fetching the admin info : ", err);
+        }
+    }
   
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState('');
@@ -26,7 +51,12 @@ const GroupChatScreen = () => {
     };
 
     const toggleAddToGroupHandler = () => {
-        setAddToGroupToggle(!addToGroupToggle);
+
+        if(isAdmin) {
+            setAddToGroupToggle(!addToGroupToggle);
+        } else {
+            alert("You are not the admin  of this group.");
+        }
     };
 
     useEffect(() => {
@@ -77,6 +107,8 @@ const GroupChatScreen = () => {
         // }, 1000);
 
         // return () => clearInterval(interval);
+
+        getAdminInfo();
     }, []);
 
     const sendMessage = async () => {
