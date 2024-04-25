@@ -69,7 +69,9 @@ const getAllGroups = async (req,res) => {
 
 // Get All Users Controller
 const getAllUsers = async (req, res) => {
+
     try {
+        
         const users = await Users.findAll({ attributes: ['id', 'name'] });
         res.status(200).json({ users });
     } catch (err) {

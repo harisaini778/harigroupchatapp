@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Container, Row, Col, Form, Button, Stack, ListGroup, ListGroupItem } from 'react-bootstrap';
-import { AiOutlineMore, AiOutlinePlus, AiOutlineUsergroupAdd } from "react-icons/ai";
+import { AiOutlineMore, AiOutlinePlus,AiOutlineMinus } from "react-icons/ai";
 import axios from "axios";
 import "./ChatScreen.css";
 import CreateGroup from "./CreateGroup";
 import AddUserToGroup from "./AddUserToGroup";
+import RemoveUserFromGroup from "./RemoveUserFromGroup";
 
 const GroupChatScreen = () => {
 
@@ -46,6 +47,8 @@ const GroupChatScreen = () => {
 
     const [addToGroupToggle, setAddToGroupToggle] = useState(false);
 
+    const [removeFromGroupToggle, setRemoveFromGroupToggle] = useState(false);
+
     const listGroupHandler = () => {
         setShowListGroup(!showListGroup);
     };
@@ -54,6 +57,15 @@ const GroupChatScreen = () => {
 
         if(isAdmin) {
             setAddToGroupToggle(!addToGroupToggle);
+        } else {
+            alert("You are not the admin  of this group.");
+        }
+    };
+
+    const removeFromGroupHandler = () => {
+
+        if(isAdmin) {
+            setRemoveFromGroupToggle(!removeFromGroupToggle);
         } else {
             alert("You are not the admin  of this group.");
         }
@@ -156,11 +168,16 @@ const GroupChatScreen = () => {
                         <h3 className="border-bottom pb-3">{groupName}</h3>
                         <Stack direction="horizontal" gap={5} className="ms-auto">
                             {addToGroupToggle && <AddUserToGroup />}
+                            {removeFromGroupToggle && <RemoveUserFromGroup/>}
                             {showListGroup && <ListGroup className="ms-auto m-0">
                                 <ListGroupItem>
                                     <Stack direction="horizontal" gap={2}>
                                         <AiOutlinePlus />
                                         <div onClick={toggleAddToGroupHandler} >Add To Group</div>
+                                    </Stack>
+                                    <Stack direction="horizontal" gap={2}>
+                                        <AiOutlineMinus />
+                                        <div onClick={removeFromGroupHandler} >Remove From Group</div>
                                     </Stack>
                                 </ListGroupItem>
                                 {/* <ListGroupItem>

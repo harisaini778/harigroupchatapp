@@ -142,4 +142,58 @@ const addNewUsersToUserGroups = async (req, res) => {
 };
 
 
-module.exports = {getAllNewMembers,getAdminInfo,getAllAdminsToAdd,addNewUsersToUserGroups};
+const getAllTheUsersInGroup = async  (req,res) => {
+
+  try {
+
+    const groupId = req.params.groupId; // Assuming the parameter is named groupId
+
+    const allMembers = await UserGroups.findAll({ where: { groupId: groupId } });
+
+    console.log(allMembers);
+
+    const userIds = allMembers.map((member) => member.userId);
+
+    const allTheUsersInGroup = await Users.findAll({
+      where: {
+        id: {
+          [Sequelize.Op.in]: userIds,
+        },
+      },
+    });
+
+    res.status(200).json({ allTheUsersInGroup });
+
+
+  } catch (err) {
+    res.status(400).json({errMsg : err});
+  }
+}
+
+const removeUserFromTheGroup = async (req,res) => {
+
+  try {
+  
+    const {groupId,members} = req.body.selectedUserDataFromGroup;
+
+    const removedMembers = await Promise.all(
+
+    members.map(async (memberId)=>(
+      await UserGroups.destroy({where: {userId:memberId,groupId:groupId}})
+    ) )
+    );
+
+    res.status(200).json({message : "Removed Successfully", removedMembers : removedMembers})
+
+
+
+
+  } catch(err) {
+
+     res.status(400).json({message : "Error in removing the user from group",errMsg:err});
+
+  }
+
+}
+
+module.exports = {getAllNewMembers,getAdminInfo,getAllAdminsToAdd,addNewUsersToUserGroups,getAllTheUsersInGroup,removeUserFromTheGroup};

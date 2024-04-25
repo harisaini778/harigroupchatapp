@@ -104,11 +104,6 @@ const Homepage = () => {
                 <div>{user.updatedAt}</div>
                 </Stack>
               <FaCircle/>
-              <input
-               type="checkbox"
-               checked={selectedUsers.includes(user.id)}
-               onChange={()=>handleUserSelection(user.id)}
-              />
             </Stack>
             </ListGroup.Item>
             ))}

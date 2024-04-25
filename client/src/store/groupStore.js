@@ -7,6 +7,7 @@ const initialState = {
   groupName : "",
   selectedAdmins : [],
   selectedMembers:[],
+  selectTheUsersFromGroup : [],
   isLoading: false,
   creatingGroup :false,
   allGroups : [],
@@ -16,6 +17,7 @@ const initialState = {
   isToggle : true,
   allNewMembers : [],
   allNewAdmins : [],
+  allTheUsersInGroup : [],
 
 }
 
@@ -50,6 +52,14 @@ const groupSlice = createSlice({
             state.allGroups = state.allGroups.includes(groupId) ?  
 
             state.allGroups.filter((id)=> id!==groupId) : [...state.allGroups,groupId] ;
+        },
+
+        toggleAllMemberSelectionInGroup : (state,action) => {
+
+          const memberId = action.payload;
+          state.selectTheUsersFromGroup = state.selectTheUsersFromGroup.includes(memberId) ? 
+          state.selectTheUsersFromGroup.filter((id)=>id !==memberId) : [...state.selectTheUsersFromGroup,memberId];
+
         },
         clearGroupCreation : (state) => {
             state.groupName = "";
@@ -96,6 +106,10 @@ const groupSlice = createSlice({
           setAllNewAdmins : (state,action) => {
             state.allNewAdmins  = action.payload
           },
+          setAllTheUsersInGroup : (state,action) => {
+            state.allTheUsersInGroup = action.payload
+          },
+  
 
     }
 
@@ -118,6 +132,8 @@ export const {
     setChatScreenIsClicked,
     setAllNewMembers,
     setAllNewAdmins,
+    setAllTheUsersInGroup,
+    toggleAllMemberSelectionInGroup,
 }   = groupSlice.actions;
 
 
@@ -140,6 +156,25 @@ export const getAllGroups = () => async (dispatch) => {
 
 
     }
+}
+
+export const getAllTheuSersInGroup = () => async (dispatch) => {
+
+try {
+
+  const group = JSON.parse(localStorage.getItem("group"));
+        
+  const groupId = group.id;
+
+  const response = await axios.get(`http://localhost:5000/userGroups/getAllTheUsersInGroup/${groupId}`);
+
+  dispatch(setAllTheUsersInGroup(response.data.allTheUsersInGroup));
+
+}
+catch (err) {
+ console.log("Err occured while fetching allTheUsersInGroup : ",err);
+}
+
 }
 
 export const getAllNewMembersToAdd = () =>async (dispatch) => {
@@ -226,6 +261,31 @@ try {
   console.log("Error creating group : ",err);
 
 }
+
+}
+
+
+export const removeMembersFromTheGroup = (selectedUserDataFromGroup ) => async (dispatch) => {
+
+  try {
+  
+    const user = JSON.stringify(localStorage.getItem("user"));
+
+    const token = user.token;
+
+    const headers = {
+
+        "Content-Type" : "application/json",
+        Authorization : token,
+    }
+
+    const response = await axios.post("http://localhost:5000/userGroups/removeUserFromTheGroup",{selectedUserDataFromGroup},{headers});
+
+    console.log("Removed Members Successfully : ", response.data);
+
+  } catch(err) {
+     console.log("Failed to Remove Member from the Group ",err);
+  }
 
 }
 
