@@ -1,0 +1,20 @@
+.add-to-group,.remove-from-group{
+   background-color: #166534 !important;
+   color: white !important;
+   font-family: "Montserrat" !important;
+   font-weight: bolder !important;
+}
+.add-to-group:hover,.remove-from-group:hover{
+    color: #166534 !important;
+    border: 2px solid #166534 !important;
+    background-color: white !important;
+    font-family: "Montserrat" !important;
+    font-weight: bolder !important;
+ }
+ .group-name-title{
+    
+    color: #166534 !important;
+    font-family: "Montserrat" !important;
+    font-weight: bolder !important;
+
+ }

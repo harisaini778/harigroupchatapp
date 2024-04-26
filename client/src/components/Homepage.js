@@ -4,7 +4,7 @@ import { useState,useEffect} from "react";
 
 import { useSelector,useDispatch } from "react-redux";
 
-import { Container,Row,Col,Button,Stack,Form,ListGroup,Image, ListGroupItem} from "react-bootstrap";
+import { Container,Row,Col,Button,Stack,Form,ListGroup,Image, ListGroupItem, InputGroup} from "react-bootstrap";
 
 import { FaSearch,FaCircle,FaPaperPlane,FaCheckSquare } from "react-icons/fa";
 
@@ -20,6 +20,7 @@ import "./Homepage.css";
 import ChatScreen from "./ChatScreen"
 
 import GroupChatScreen from "./GroupChatScreen";
+import InputGroupText from "react-bootstrap/esm/InputGroupText";
 
 
 
@@ -27,6 +28,8 @@ import GroupChatScreen from "./GroupChatScreen";
 
 
 const Homepage = () => {
+
+  const [lastSeen,setLastSeen] = useState([]);
 
   const dispatch = useDispatch();
 
@@ -43,6 +46,29 @@ const Homepage = () => {
   const isToggle = useSelector((state)=>state.userGroupCreation.isToggle);
 
   const chatScreenIsClicked = useSelector((state)=>state.userGroupCreation.chatScreenIsClicked);
+
+
+  function formatLastActiveTime(lastActiveTime) {
+    const currentTime = new Date();
+    const activityTime = new Date(lastActiveTime);
+  
+    const timeDifference = currentTime.getTime() - activityTime.getTime();
+    const seconds = Math.floor(timeDifference / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const hours = Math.floor(minutes / 60);
+    const days = Math.floor(hours / 24);
+  
+    if (days > 0) {
+      return `${days} ${days === 1 ? 'day' : 'days'} ago`;
+    } else if (hours > 0) {
+      return `${hours} ${hours === 1 ? 'hour' : 'hours'} ago`;
+    } else if (minutes > 0) {
+      return `${minutes} ${minutes === 1 ? 'minute' : 'minutes'} ago`;
+    } else {
+      return `${seconds} ${seconds === 1 ? 'second' : 'seconds'} ago`;
+    }
+  }
+  
 
 
 
@@ -77,38 +103,49 @@ const Homepage = () => {
                 <Col md={4} lg={4} xs={12} className="user-list-col">
   
             <Stack direction="horizontal" className="m-3">
-            <Form.Control type="text" placeholder="Find Someone"></Form.Control>
-            <Button className="search-btn-user">
-            <FaSearch className="search-icon-user"/>
+              <InputGroup>
+              <Form.Control type="text" placeholder={`Find "Groups, "Users"`} ></Form.Control>
+              <InputGroupText>
+              <Button className="search-btn-user">
+            <FaSearch/>
             </Button>
+              </InputGroupText>
+              </InputGroup>
             </Stack>
+            <Stack direction="vertical" gap={5}>
+            <ListGroup className="user-list-group">
 
-            <ListGroup className="user-list-allGroups">
+              <Stack direction="vertical" gap={1}>
+                <div className="mx-auto mt-3 mb-3 border-bottom" id="your-group-heading">Your Groups</div>
               {groups.map((group) => (
                 <ListGroupItem key={group.id} onClick={()=>groupHandler(group)}>
                   <Stack direction="horizontal" >
-                    <div className="me-auto">{group.name}</div>
-                    <div className="ms-auto">{group.updatedAt}</div>
+                    <div className="me-auto group-name">{(group.name).toUpperCase()}</div>
                   </Stack>
                 </ListGroupItem>
               ))}
+              </Stack>
             </ListGroup>
 
             <ListGroup className="user-list-group">
-              
+            <Stack gap={1}>
+            <div className="mx-auto mb-3 border-bottom" id="your-group-heading">All Users</div>
             {allUsers.map((user)=>(
             <ListGroup.Item key={user.id}>
             <Stack direction="horizontal" gap={1}>
                 <Stack direction="vertical">
-                <div>{user.name}</div>
-                <div>{user.updatedAt}</div>
+                <div className="user-name">{user.name}</div>
+                <div className="user-lastseen">{formatLastActiveTime(user.updatedAt)}</div>
                 </Stack>
               <FaCircle/>
             </Stack>
             </ListGroup.Item>
+             
             ))}
-
+                </Stack>
             </ListGroup>
+            
+            </Stack>
                 
                 </Col>
 

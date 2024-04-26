@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { Container, Row, Col, Form, Button, Stack, ListGroup, ListGroupItem } from 'react-bootstrap';
-import { AiOutlineMore, AiOutlinePlus,AiOutlineMinus } from "react-icons/ai";
+import { Container, Row, Col, Form, Button, Stack, ListGroup, ListGroupItem, InputGroup } from 'react-bootstrap';
+import { AiOutlineMore, AiOutlinePlus,AiOutlineMinus, AiOutlinePaperClip } from "react-icons/ai";
 import axios from "axios";
 import "./ChatScreen.css";
-import CreateGroup from "./CreateGroup";
 import AddUserToGroup from "./AddUserToGroup";
 import RemoveUserFromGroup from "./RemoveUserFromGroup";
+import "./GroupChatScreen.css";
+import InputGroupText from "react-bootstrap/esm/InputGroupText";
+import { FaPaperPlane } from "react-icons/fa";
 
 const GroupChatScreen = () => {
 
@@ -165,21 +167,27 @@ const GroupChatScreen = () => {
             <Row>
                 <Col md={12}>
                     <Stack direction="horizontal">
-                        <h3 className="border-bottom pb-3">{groupName}</h3>
+                        <h3 className="border-bottom pb-3 group-name-title">{(groupName).toUpperCase()}</h3>
                         <Stack direction="horizontal" gap={5} className="ms-auto">
                             {addToGroupToggle && <AddUserToGroup />}
                             {removeFromGroupToggle && <RemoveUserFromGroup/>}
                             {showListGroup && <ListGroup className="ms-auto m-0">
-                                <ListGroupItem>
+                                <ListGroup>
+                                   
+                                    <ListGroupItem className="add-to-group m-1">
                                     <Stack direction="horizontal" gap={2}>
                                         <AiOutlinePlus />
                                         <div onClick={toggleAddToGroupHandler} >Add To Group</div>
                                     </Stack>
-                                    <Stack direction="horizontal" gap={2}>
+                                    </ListGroupItem>
+                                   <ListGroupItem className="remove-from-group m-1">
+                                   <Stack direction="horizontal" gap={2}>
                                         <AiOutlineMinus />
                                         <div onClick={removeFromGroupHandler} >Remove From Group</div>
                                     </Stack>
-                                </ListGroupItem>
+                                   </ListGroupItem> 
+                                    
+                             </ListGroup>
                                 {/* <ListGroupItem>
                                     <Stack direction="horizontal" gap={2}>
                                         <AiOutlineUsergroupAdd />
@@ -202,8 +210,13 @@ const GroupChatScreen = () => {
                             </div>
                         ))}
                     </div>
-                    <Form.Group className="mb-3">
-                        <Form.Control
+                    <InputGroup>
+                    <InputGroupText>
+                    <Button variant="primary" onClick={sendMessage} className="send-message-btn">
+                            <FaPaperPlane/>
+                        </Button>
+                    </InputGroupText>
+                    <Form.Control
                             type="text"
                             placeholder="Type your message..."
                             value={newMessage}
@@ -212,10 +225,14 @@ const GroupChatScreen = () => {
                                 if (e.key === 'Enter') sendMessage();
                             }}
                         />
-                        <Button variant="primary" onClick={sendMessage}>
-                            Send
+                         <InputGroupText>
+                    <Button  className="media-attachment">
+                            <AiOutlinePaperClip/>
                         </Button>
-                    </Form.Group>
+                    </InputGroupText>
+                    </InputGroup>
+
+                 
                 </Col>
             </Row>
         </div>

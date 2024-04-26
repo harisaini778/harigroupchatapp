@@ -4,6 +4,8 @@ import { useDispatch,useSelector } from "react-redux";
 import {ListGroup,Form,Stack, ListGroupItem,Modal,Button} from "react-bootstrap";
 import {toggleAllMemberSelectionInGroup,getAllTheuSersInGroup,removeMembersFromTheGroup } from "../store/groupStore";
 import "./CreateGroup.css";
+import { AiOutlineMinus } from "react-icons/ai";
+import "./RemoveUserFromGroup.css"
 
 
 
@@ -51,13 +53,13 @@ const RemoveUserFromGroup = () => {
         <div>
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton onClick={handleClose}>
-                    <Modal.Title>
+                    <Modal.Title className="remove-members-title">
                         Remove Members From The Group
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                 <Stack>
-                <div className="m-1">Select Members To Remove</div>
+                <div className="mb-2 select-members-title">Select Members To Remove</div>
                 <ListGroup className="select-admin-list">
                     {allTheUsersInGroup.map((user)=>(
                         <ListGroupItem key={user.id}>
@@ -77,7 +79,13 @@ const RemoveUserFromGroup = () => {
                 </ListGroup>
                 </Stack>
                 </Modal.Body>
-                <Modal.Footer><Button onClick={removeFromGroupHandler}>Remove Members To Group</Button></Modal.Footer>
+                <Modal.Footer><Button onClick={removeFromGroupHandler} className="remove-members-btn">
+                    <Stack direction="horizontal" gap={1}>
+                        <AiOutlineMinus/>
+                        <div>Remove Members From Group</div>
+                    </Stack>
+                    
+                   </Button></Modal.Footer>
                 </Modal>
    
         </div>

@@ -22,14 +22,14 @@
   .message-user {
     font-size: 12px;
     font-weight: bold;
-    color: #555;
+    color: #15803d;
   }
   
   .message-text {
     font-size: 14px;
     padding: 8px 12px;
     border-radius: 10px;
-    background-color: #e5e5ea;
+    background-color:#dcfce7;
     display: inline-block;
     max-width: 80%; /* Limit message width */
   }
@@ -87,4 +87,32 @@
   .more-icon{
     margin: 20px !important;
     font-size: 2.2rem !important;
+  }
+  .group-title {
+    font-family: "Montserrat";
+    color: #166534 !important;
+    font-weight: bold;
+    font-size: x-large;
+  }
+  .media-attachment,.send-message-btn{
+    background-color :#047857 !important; 
+    font-size: larger !important; 
+    font-weight: bolder !important; 
+  }
+  .media-attachment:hover,.send-message-btn:hover{
+    border :2px solid #047857 !important; 
+    color : #047857 !important;
+    background-color: white !important;
+    font-size: larger !important; 
+    font-weight: bolder !important; 
+  }
+  .create-group-stack{
+    background-color :#047857 !important; 
+    color: white !important;
+    font-weight: bold;
+  }
+  .create-group-stack:hover{
+    border :2px solid #047857 !important; 
+    color: #047857 !important;
+    background-color: white !important;
   }

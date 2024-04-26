@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Container, Row, Col, Form, Button, Stack, ListGroup, ListGroupItem } from 'react-bootstrap';
-import { AiOutlineMore, AiOutlinePlus, AiOutlineUsergroupAdd } from "react-icons/ai";
+import { Container, Row, Col, Form, Button, Stack, ListGroup, ListGroupItem, InputGroup } from 'react-bootstrap';
+import { AiOutlineMore, AiOutlinePlus, AiOutlineUsergroupAdd,AiOutlinePaperClip } from "react-icons/ai";
+import {FaPaperPlane} from "react-icons/fa"
 import axios from "axios";
 import "./ChatScreen.css";
 import CreateGroup from "./CreateGroup";
@@ -109,17 +110,11 @@ const ChatScreen = () => {
             <Row>
                 <Col md={12}>
                     <Stack direction="horizontal">
-                        <h3 className="border-bottom pb-3">Group Chat</h3>
+                        <h3 className="border-bottom pb-3 group-title">Group Chat</h3>
                         <Stack direction="horizontal" gap={5} className="ms-auto">
                             {createGroupToggle && <CreateGroup />}
                             {showListGroup && <ListGroup className="ms-auto m-0">
-                                <ListGroupItem>
-                                    <Stack direction="horizontal" gap={2}>
-                                        <AiOutlinePlus />
-                                        <div>Add To Group</div>
-                                    </Stack>
-                                </ListGroupItem>
-                                <ListGroupItem>
+                                <ListGroupItem  className="create-group-stack">
                                     <Stack direction="horizontal" gap={2}>
                                         <AiOutlineUsergroupAdd />
                                         <div onClick={toggleGroupHandler}>Create A Group</div>
@@ -141,7 +136,13 @@ const ChatScreen = () => {
                             </div>
                         ))}
                     </div>
-                    <Form.Group className="mb-3">
+                    <InputGroup>
+                        <InputGroup.Text>
+                        <Button variant="primary" onClick={sendMessage} className="send-message-btn">
+                            <FaPaperPlane/>
+                        </Button>
+                        </InputGroup.Text>
+                       
                         <Form.Control
                             type="text"
                             placeholder="Type your message..."
@@ -151,10 +152,11 @@ const ChatScreen = () => {
                                 if (e.key === 'Enter') sendMessage();
                             }}
                         />
-                        <Button variant="primary" onClick={sendMessage}>
-                            Send
-                        </Button>
-                    </Form.Group>
+                    
+                    <InputGroup.Text>
+                        <Button className="media-attachment"><AiOutlinePaperClip/></Button>
+                        </InputGroup.Text>
+                    </InputGroup>
                 </Col>
             </Row>
         </div>

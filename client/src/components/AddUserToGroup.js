@@ -1,12 +1,11 @@
 import React, { useEffect } from "react";
 import  { useState } from "react"
 import { useDispatch,useSelector } from "react-redux";
-import { fetchUsers } from "../store/userStore";
 import {ListGroup,Form,Stack, ListGroupItem,Modal,Button} from "react-bootstrap";
 import {toggleMemberSelection,clearGroupCreation,getAllNewMembersToAdd,toggleGroupSelection,getAllNewAdminsToAdd,addNewMembersToTheGroup,setSelectedAdmins } from "../store/groupStore";
-import {FaUserShield} from  'react-icons/fa';
 import "./CreateGroup.css";
-
+import "./AddUserToGroup.css"
+import { AiOutlinePlus } from "react-icons/ai";
 
 
 
@@ -64,13 +63,13 @@ const AddUserToGroup = () => {
         <div>
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton onClick={handleClose}>
-                    <Modal.Title>
+                    <Modal.Title className="add-user-title mb-2">
                         Add Users To Group
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                 <Stack>
-                <div className="m-1">Select New Admins</div>
+                <div className="m-1 select-admins-title mb-2">Select New Admins</div>
                 <ListGroup className="select-admin-list">
                     {allNewAdmins.map((user)=>(
                         <ListGroupItem key={user.id}>
@@ -93,8 +92,8 @@ const AddUserToGroup = () => {
                         </ListGroupItem>
                     ))}
                 </ListGroup>
-                <div className="m-1">Select New Members</div>
-                <ListGroup className="select-admin-list">
+                <div className="mb-2 mt-2 select-members-title">Select New Members</div>
+                <ListGroup className="select-admin-list mb-2">
                     {allNewMembers.map((user)=>(
                         <ListGroupItem key={user.id}>
                         <Stack direction="horizontal">
@@ -113,7 +112,12 @@ const AddUserToGroup = () => {
                 </ListGroup>
                 </Stack>
                 </Modal.Body>
-                <Modal.Footer><Button onClick={addToGroupHandler}>Add Members To Group</Button></Modal.Footer>
+                <Modal.Footer><Button onClick={addToGroupHandler} className="add-members-btn">
+                    <Stack direction="horizontal" gap={1}>
+                        <AiOutlinePlus/>
+                    <div>Add Members To Group</div>
+                    </Stack>
+                    </Button></Modal.Footer>
                 </Modal>
    
         </div>

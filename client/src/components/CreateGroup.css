@@ -9,3 +9,29 @@
   z-index: 1; /* Higher z-index to overlay on top of content */
   margin-top: 200px !important;
 }
+.modal-title-group{
+  color:  #166534 !important;
+  font-family: "Montserrat";
+  font-weight: bolder !important;
+}
+
+.select-admins,.select-members {
+  color:  #166534 !important;
+  font-family: "Montserrat";
+  font-weight: bolder !important;
+}
+.create-group-btn{
+  background-color: #166534 !important ;
+  color: white !important;
+  font-family: "Montserrat" !important;
+  font-weight: bolder;
+
+}
+
+.create-group-btn:hover{
+  border:2px solid  #166534 !important;
+  color:  #166534 !important;
+  background-color: white !important;
+  font-family: "Montserrat" !important;
+  font-weight: bolder;
+}

@@ -5,6 +5,7 @@ import { fetchUsers } from "../store/userStore";
 import {ListGroup,Form,Stack, ListGroupItem,Modal,Button} from "react-bootstrap";
 import { setSelectedAdmins,setGroupName,toggleMemberSelection,clearGroupCreation,createGroup, deselectAdmin} from "../store/groupStore";
 import "./CreateGroup.css";
+import { AiOutlineUsergroupAdd } from "react-icons/ai";
 
 
 const CreateGroup = () => {
@@ -61,14 +62,14 @@ const CreateGroup = () => {
         <div>
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton onClick={handleClose}>
-                    <Modal.Title>
+                    <Modal.Title className="modal-title-group">
                         Create Your Group
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
         <Form>
             <Form.Group>
-                <Form.Control placeholder="Enter Group Name" type="text" 
+                <Form.Control placeholder={`Enter Your "Group Name"`} type="text" className="mb-2" 
                 value={groupName}
                 onChange={(e)=>dispatch(setGroupName(e.target.value))}
                 required
@@ -76,8 +77,8 @@ const CreateGroup = () => {
                 </Form.Group>
                 </Form>
                 <Stack>
-                <div className="m-1">Select Group Admin</div>
-                <ListGroup className="select-admin-list">
+                <div className="mb-2 select-admins">Select Group Admin</div>
+                <ListGroup className="select-admin-list mb-2">
                     {users.map((user)=>(
                         <ListGroupItem key={user.id}>
                         <Stack direction="horizontal">
@@ -99,8 +100,8 @@ const CreateGroup = () => {
                         </ListGroupItem>
                     ))}
                 </ListGroup>
-                <div className="m-1">Select Group Members</div>
-                <ListGroup className="select-admin-list">
+                <div className="mb-2 select-members">Select Group Members</div>
+                <ListGroup className="select-admin-list mb-2">
                     {users.map((user)=>(
                         <ListGroupItem key={user.id}>
                         <Stack direction="horizontal">
@@ -119,7 +120,13 @@ const CreateGroup = () => {
                 </ListGroup>
                 </Stack>
                 </Modal.Body>
-                <Modal.Footer><Button onClick={createGroupHandler}>Create Group</Button></Modal.Footer>
+                <Modal.Footer>
+                    <Button onClick={createGroupHandler} className="create-group-btn">
+                        <Stack direction="horizontal" gap={1}>
+                            <AiOutlineUsergroupAdd/>
+                            <div> Create Group</div>
+                        </Stack>
+                       </Button></Modal.Footer>
                 </Modal>
    
         </div>
