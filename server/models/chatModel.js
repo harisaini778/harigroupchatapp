@@ -18,6 +18,10 @@ const Chats = sequelize.define("chats",{
         type : DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue : true,
+    },
+    userName : {
+        type : DataTypes.STRING,
+        allowNull: false,
     }
 });
 

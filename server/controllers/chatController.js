@@ -3,6 +3,7 @@ const Users =  require("../models/userModel");
 
 
 
+
 const sendMessage = async (req,res) => {
 
     try {
@@ -12,15 +13,18 @@ const sendMessage = async (req,res) => {
             return res.status(404).json({ message: "User not found" });
         }
 
-     console.log("req object : ",req.body,req.user.dataValues);
+     //console.log("req object : ",req.body,req.user.dataValues);
 
-     await Chats.create({
+     console.log("name is : ",req.user.name);
+
+     const chats = await Chats.create({
         message : req.body.message,
         global : true,
         userId : req.user.id,
+        userName : req.user.name,
      });
     
-    return res.status(200).json({message:"success"});
+    return res.status(200).json({message:"success", chats : chats});
 
     } catch (err) {
      console.log("err occured while inserting chat into db : ",err);
@@ -29,37 +33,34 @@ const sendMessage = async (req,res) => {
 };
 
 
-const getMessage = async (req,res) => {
+// io.on("connection",(socket)=>{
+//     socket.on("getMessages",async()=>{
+//         try {
+//             const chats =  await Chats.findAll();
+//             io.emit("messages", chats)
+//         }catch(err) {
+//            console.log(err);
+//         }
+//     })
+// });
 
-    try { 
-
-     const chats =  await Chats.findAll();
-
-     console.log("chats fetched from the db server side : ",chats);
-
-     return res.status(200).json({messages : chats});
-
-    } catch(err) {
-     return res.status(404).json({message : "false" ,errMsg : err});
-    }
-
-}
 
 
 const sendGroupMessages = async (req,res) => {
 
  try {
 
-    const {message,global,userId,groupId} = req.body;
+    const {message,global,userId,groupId,name} = req.body;
 
-    const  groupChat = Chats.create({
+    const  groupChat = await Chats.create({
         message,
         global,
         userId,
         groupId,
+        userName : name,
     });
 
-    return res.status(200).json({groupChat : groupChat});
+    return res.status(200).json({groupChat});
 
  }catch(err) {
      res.status(500).json({message : "Err occured while creating groupChat", errMsg: err});
@@ -68,19 +69,19 @@ const sendGroupMessages = async (req,res) => {
 }
 
 
-const getGroupMessages = async (req, res) => {
+// const getGroupMessages = async (req, res) => {
     
-    const { groupId } = req.params;
+//     const { groupId } = req.params;
 
-    console.log(groupId + ' is the id of the group');
+//     console.log(groupId + ' is the id of the group');
 
-    try {
-        const messages = await Chats.findAll({ where: { groupId } });
-        res.status(200).json({ messages });
-    } catch (err) {
-        console.log('Error fetching group messages:', err);
-        res.status(500).json({ message: 'Internal server error' });
-    }
-};
+//     try {
+//         const messages = await Chats.findAll({ where: { groupId } });
+//         res.status(200).json({ messages });
+//     } catch (err) {
+//         console.log('Error fetching group messages:', err);
+//         res.status(500).json({ message: 'Internal server error' });
+//     }
+// };
 
-module.exports = {sendMessage,getMessage,getGroupMessages,sendGroupMessages};
+module.exports = {sendMessage,sendGroupMessages};

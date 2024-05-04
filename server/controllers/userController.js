@@ -3,6 +3,8 @@ dotenv.config();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const Users = require("../models/userModel");
+const {Sequelize}  = require("sequelize");
+const {Op} = require("sequelize");
 
 const generateAccessToken = (id, email) => {
     return jwt.sign({ userId: id, email: email }, process.env.JWT_SECRET, { expiresIn: '1h' });
@@ -34,7 +36,7 @@ try {
 
     console.log("JWT token is : ",token);
 
-    return res.status(200).json({message : "Login Sucessful", userId : user.id,email : email,token :token});
+    return res.status(200).json({message : "Login Sucessful", userId : user.id,email : email,token :token, userName:user.name});
 
 }catch(err){
     console.log("Err during login server : ", err);
@@ -102,4 +104,44 @@ const postUserSignUp = async (req,res) =>{
         }
     };
 
-    module.exports = {postUserLogin,postUserSignUp,getAllUsers,getUserById};
+
+    const getUsersByUserIds = async (userIds) => {
+
+        try {
+           
+            if (!Array.isArray(userIds)) {
+                throw new Error("User IDs must be an array");
+            }
+            
+            console.log("In the controller getUsersByUserIds fn :  ",userIds);
+
+            let userArr = [];
+
+            await Promise.all(userIds.map(async (id) => {
+                try {
+                    const userDetails = await Users.findByPk(id);
+    
+                    if (userDetails) {
+                        userArr.push(userDetails);
+                    }
+    
+                } catch (err) {
+                    console.log("Err is:", err);
+                }
+            }));
+    
+
+           const allUsers = userArr.map((user)=>user.name);
+
+            console.log("All users are : ",allUsers);
+    
+            return allUsers;
+    
+        } catch(err) {
+            console.error("Error getting users by ids",err);
+        }
+            
+    
+    }
+
+    module.exports = {postUserLogin,postUserSignUp,getAllUsers,getUserById,getUsersByUserIds};

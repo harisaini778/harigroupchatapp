@@ -1,12 +1,14 @@
-import logo from './logo.svg';
+
 import './App.css';
 import Signup from './components/Signup';
 import Homepage from './components/Homepage';
 import {BrowserRouter as Router,Routes,Route} from "react-router-dom"
-
+import {useEffect } from "react";
 
 
 function App() {
+
+
   return (
     <div >
    <Router>

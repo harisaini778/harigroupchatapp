@@ -8,9 +8,9 @@ const router = express.Router();
 
 router.post("/sendMessage",auth,chatController.sendMessage);
 
-router.get("/getMessage",chatController.getMessage);
+//router.get("/getMessage",chatController.getMessage);
 
-router.get('/getGroupMessages/:groupId', chatController.getGroupMessages);
+//router.get('/getGroupMessages/:groupId', chatController.getGroupMessages);
 
 router.post("/sendGroupMessages",chatController.sendGroupMessages);
 
