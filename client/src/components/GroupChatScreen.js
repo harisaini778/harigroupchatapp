@@ -25,7 +25,9 @@ import RemoveUserFromGroup from "./RemoveUserFromGroup";
 import { socket } from "../socket";
 
 const GroupChatScreen = () => {
+  const [selectedFile, setSelectedFile] = useState(null);
 
+  const [isOpen, setIsOpen] = useState(false);
 
   const [isAdmin, setIsAdmin] = useState(false);
 
@@ -88,9 +90,12 @@ const GroupChatScreen = () => {
     }
   };
 
+  const handleToggleMenu = () => {
+    setIsOpen(!isOpen);
+  };
+
   const getChat = () => {
     try {
-
       const groupId = JSON.parse(localStorage.getItem("group")).id;
 
       const groupName = JSON.parse(localStorage.getItem("group")).name;
@@ -99,20 +104,18 @@ const GroupChatScreen = () => {
 
       socket.emit("getGroupMessage", { groupId, groupName });
 
-       socket.on("groupmessages", (chats) => {
-
+      socket.on("groupmessages", (chats) => {
         try {
-
           const limitedMessages = chats.slice(-10);
 
           // Update state with the recent chats
           setMessages(limitedMessages);
 
-
           // Save updated messages in local storage
-          localStorage.setItem("groupChatMessages", JSON.stringify(limitedMessages));
-
-          
+          localStorage.setItem(
+            "groupChatMessages",
+            JSON.stringify(limitedMessages)
+          );
         } catch (err) {
           console.log(err);
         }
@@ -150,13 +153,15 @@ const GroupChatScreen = () => {
             groupId: groupId,
             global: false,
             userId: user.userId,
-            name:name,
-            
+            name: name,
           },
           { headers }
         );
 
-        console.log("Message has been sent successfully!", sentMessage.data.groupChat);
+        console.log(
+          "Message has been sent successfully!",
+          sentMessage.data.groupChat
+        );
 
         const newMsg = sentMessage.data.groupChat;
 
@@ -174,16 +179,15 @@ const GroupChatScreen = () => {
         // );
 
         // Update state with the recent chats
-        setMessages(prevMessages => {
+        setMessages((prevMessages) => {
           const updatedMessages = [newMsg, ...prevMessages];
           if (updatedMessages.length > 10) {
             updatedMessages.splice(10);
           }
           return updatedMessages;
         });
-  
 
-        console.log("set messages  : ",messages.slice(-10));
+        console.log("set messages  : ", messages.slice(-10));
 
         setNewMessage("");
 
@@ -191,6 +195,49 @@ const GroupChatScreen = () => {
       }
     } catch (err) {
       console.log("Error while sending the message:", err);
+    }
+  };
+
+  const sendFile = async () => {
+    try {
+      const user = JSON.parse(localStorage.getItem("user"));
+      const token = user.token;
+
+      console.log("selected file is : ", selectedFile);
+
+      if (selectedFile) {
+        const formData = new FormData(); // Create a new FormData object
+        formData.append("file", selectedFile, selectedFile.name); // Append the file with its name
+        formData.append("groupId", groupId); // Append the file with its name
+
+        const headers = {
+          "Content-Type": "multipart/form-data",
+          Authorization: token,
+        };
+
+        const sendFile = await axios.post(
+          "http://localhost:5000/chat/sendFile",
+          formData, // Pass the formData object as the request body
+          { headers }
+        );
+
+        console.log("File has been sent successfully!", sendFile.data);
+
+        setSelectedFile(null);
+
+        getChat();
+      }
+    } catch (err) {
+      console.log("Error while sending the file:", err);
+    }
+  };
+
+  const handleSend = (e) => {
+    if (selectedFile) {
+      sendFile();
+      setSelectedFile(null);
+    } else {
+      sendMessage();
     }
   };
 
@@ -245,11 +292,53 @@ const GroupChatScreen = () => {
                 key={index}
                 className={`message ${msg.user === "Me" ? "sent" : "received"}`}
               >
-                <Stack>
-                  {msg.user !== "Me" && (
-                    <span className="message-user">{msg.userName}</span>
+                <Stack gap={1}>
+                  <span className="message-user">{msg.userName}</span>
+
+                  {msg.type.startsWith("image/") && (
+                    <img
+                      src={msg.message}
+                      alt="Image"
+                      className="message-image"
+                      style={{
+                        maxWidth: "50%",
+                        maxHeight: "50%",
+                        objectFit: "contain",
+                      }} // Example inline styles
+                    />
                   )}
-                  <p className="message-text">{msg.message}</p>
+
+                  {msg.type.startsWith("video/") && (
+                    <video
+                      controls
+                      className="message-video"
+                      style={{ maxWidth: "50%" }}
+                    >
+                      {" "}
+                      {/* Example inline styles */}
+                      <source src={msg.message} type={msg.type} />
+                      Your browser does not support the video tag.
+                    </video>
+                  )}
+
+                  {msg.type.startsWith("audio/") && (
+                    <audio controls className="message-audio">
+                      {" "}
+                      {/* Example inline styles */}
+                      <source src={msg.message} type={msg.type} />
+                      Your browser does not support the audio tag.
+                    </audio>
+                  )}
+
+                  {msg.type === "text" && (
+                    <p
+                      className="message-text"
+                    >
+                      {" "}
+                      {/* Example inline styles */}
+                      {msg.message}
+                    </p>
+                  )}
                 </Stack>
               </div>
             ))}
@@ -258,7 +347,7 @@ const GroupChatScreen = () => {
             <InputGroupText>
               <Button
                 variant="primary"
-                onClick={sendMessage}
+                onClick={handleSend}
                 className="send-message-btn"
               >
                 <FaPaperPlane />
@@ -270,13 +359,23 @@ const GroupChatScreen = () => {
               value={newMessage}
               onChange={(e) => setNewMessage(e.target.value)}
               onKeyDown={(e) => {
-                if (e.key === "Enter") sendMessage();
+                if (e.key === "Enter") handleSend();
               }}
             />
             <InputGroupText>
-              <Button className="media-attachment">
+              <Button className="media-attachment" onClick={handleToggleMenu}>
                 <AiOutlinePaperClip />
               </Button>
+              {isOpen && (
+                <Form.Control
+                  id="custom-file"
+                  type="file"
+                  label="Choose file"
+                  style={{ display: "block" }}
+                  onChange={(e) => setSelectedFile(e.target.files[0])}
+                  accept="image/*,audio/*,video/*,.pdf"
+                />
+              )}
             </InputGroupText>
           </InputGroup>
         </Col>

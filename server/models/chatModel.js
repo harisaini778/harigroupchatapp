@@ -22,6 +22,11 @@ const Chats = sequelize.define("chats",{
     userName : {
         type : DataTypes.STRING,
         allowNull: false,
+    },
+    type : {
+        type : DataTypes.STRING,
+        allowNull : false,
+        defaultValue : "text"
     }
 });
 
