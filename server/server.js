@@ -134,6 +134,9 @@ app.use("/chat", chatRouter);
 app.use("/groups", groupRouter);
 app.use("/userGroups", userGroupRouter);
 
+const job = require("./jobs/cron");
+job.start();
+
 // Database connection and server startup
 const connectToDb = async () => {
   try {
