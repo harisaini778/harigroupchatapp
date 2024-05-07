@@ -21,6 +21,8 @@ import axios from "axios";
 import "./ChatScreen.css";
 import CreateGroup from "./CreateGroup";
 import { socket } from "../socket";
+import { setIsOnline } from "../store/userStore";
+import { useSelector,useDispatch} from "react-redux";
 
 const ChatScreen = () => {
   const [messages, setMessages] = useState([]);
@@ -54,6 +56,10 @@ const ChatScreen = () => {
     audio: ["audio/mpeg", "audio/ogg", "audio/wav"],
   };
 
+  //const isOnline = useSelector((state)=>state.userGroup.isOnline);
+
+  //const dispatch = useDispatch();
+
   const getChat = async () => {
     try {
       // Fetch messages from local storage
@@ -66,6 +72,10 @@ const ChatScreen = () => {
 
       socket.on("messages", async (chats) => {
         try {
+
+          // dispatch(setIsOnline(isOnline));
+
+          // console.log("isOnline is : ",isOnline);
           // Fetch user names for each message
           // const userIds = chats.map(message => message.userId);
           // const userDetailsPromises = userIds.map(async userId => {

@@ -10,6 +10,10 @@ import { AiOutlineUsergroupAdd } from "react-icons/ai";
 
 const CreateGroup = () => {
 
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    const id = user.userId;
+
     
     const [show,setShow] = useState(true);
 
@@ -42,7 +46,7 @@ const CreateGroup = () => {
 
             const groupData = {
                 name : groupName,
-                admins : selectedAdmins,
+                admin : id,
                 members : selectedMembers,
             };
 
@@ -50,6 +54,8 @@ const CreateGroup = () => {
 
 
             dispatch(clearGroupCreation());
+
+            setShow(!show);
 
         } catch(err) {
            console.log("error creating group  : ",err);
@@ -77,7 +83,7 @@ const CreateGroup = () => {
                 </Form.Group>
                 </Form>
                 <Stack>
-                <div className="mb-2 select-admins">Select Group Admin</div>
+                {/* <div className="mb-2 select-admins">Select Group Admin</div>
                 <ListGroup className="select-admin-list mb-2">
                     {users.map((user)=>(
                         <ListGroupItem key={user.id}>
@@ -99,7 +105,7 @@ const CreateGroup = () => {
                         </Stack>
                         </ListGroupItem>
                     ))}
-                </ListGroup>
+                </ListGroup> */}
                 <div className="mb-2 select-members">Select Group Members</div>
                 <ListGroup className="select-admin-list mb-2">
                     {users.map((user)=>(

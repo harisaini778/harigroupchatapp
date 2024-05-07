@@ -23,6 +23,7 @@ import "./ChatScreen.css";
 import "./GroupChatScreen.css";
 import RemoveUserFromGroup from "./RemoveUserFromGroup";
 import { socket } from "../socket";
+import AddAdminToGroup from "./AddAdminToGroup";
 
 const GroupChatScreen = () => {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -68,6 +69,8 @@ const GroupChatScreen = () => {
 
   const [addToGroupToggle, setAddToGroupToggle] = useState(false);
 
+  const [addAdminToGroupToggle, setAddAdminToGroupToggle] = useState(false);
+
   const [removeFromGroupToggle, setRemoveFromGroupToggle] = useState(false);
 
   const listGroupHandler = () => {
@@ -77,6 +80,14 @@ const GroupChatScreen = () => {
   const toggleAddToGroupHandler = () => {
     if (isAdmin) {
       setAddToGroupToggle(!addToGroupToggle);
+    } else {
+      alert("You are not the admin  of this group.");
+    }
+  };
+
+  const toggleAddAdminToGroupHandler = () => {
+    if (isAdmin) {
+      setAddAdminToGroupToggle(!addAdminToGroupToggle);
     } else {
       alert("You are not the admin  of this group.");
     }
@@ -252,6 +263,7 @@ const GroupChatScreen = () => {
             <Stack direction="horizontal" gap={5} className="ms-auto">
               {addToGroupToggle && <AddUserToGroup />}
               {removeFromGroupToggle && <RemoveUserFromGroup />}
+              {addAdminToGroupToggle && <AddAdminToGroup/>}
               {showListGroup && (
                 <ListGroup className="ms-auto m-0">
                   <ListGroup>
@@ -259,7 +271,15 @@ const GroupChatScreen = () => {
                       <Stack direction="horizontal" gap={2}>
                         <AiOutlinePlus />
                         <div onClick={toggleAddToGroupHandler}>
-                          Add To Group
+                          Add User To Group
+                        </div>
+                      </Stack>
+                    </ListGroupItem>
+                    <ListGroupItem className="add-to-group m-1">
+                      <Stack direction="horizontal" gap={2}>
+                        <AiOutlinePlus />
+                        <div onClick={toggleAddAdminToGroupHandler}>
+                          Add Admin To Group
                         </div>
                       </Stack>
                     </ListGroupItem>

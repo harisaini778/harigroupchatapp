@@ -15,6 +15,7 @@ const initialState = {
     users : [], 
     selectedUsers : [],
     groups : [],
+    isOnline : {}
 };
 
 
@@ -45,6 +46,10 @@ const userGroupSlice = createSlice({
             state.groups[groupIndex].members.push(userToAdd);
           }
         }
+      },
+      updateUserOnlineStatus: (state, action) => {
+        const { userId, status } = action.payload;
+        state.isOnline[userId] = status; // Update online status for the specified user
       },
     },
   });
@@ -79,6 +84,7 @@ export const sendSelectedUsers = () => async(dispatch,getState) => {
     setUsers,
     toggleUserSelection,
     addUserToGroup,
+    updateUserOnlineStatus
 
 } = userGroupSlice.actions;
 

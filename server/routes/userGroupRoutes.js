@@ -12,6 +12,8 @@ router.get("/getAllAdminsToAdd/:groupId",userGroupController.getAllAdminsToAdd);
 
 router.post("/addNewUsersToUserGroups",userGroupController.addNewUsersToUserGroups);
 
+router.post("/addAdminsToUserGroups",userGroupController.addAdminsToUserGroups);
+
 router.get("/getAllTheUsersInGroup/:groupId",userGroupController.getAllTheUsersInGroup);
 
 router.post("/removeUserFromTheGroup",userGroupController.removeUserFromTheGroup);

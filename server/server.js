@@ -8,12 +8,10 @@ const cors = require("cors");
 const { createServer } = require("http");
 const { Server } = require("socket.io");
 
-
 const userRouter = require("./routes/userRoutes");
 const chatRouter = require("./routes/chatRoutes");
 const groupRouter = require("./routes/groupRoutes");
 const userGroupRouter = require("./routes/userGroupRoutes");
-
 
 const db = require("./utils/database");
 
@@ -33,48 +31,47 @@ const io = new Server(server, {
   },
 });
 
-
 io.on("connection", (socket) => {
+  console.log("A user has connected", socket.id);
 
-  console.log("A user has connected",socket.id);
-
+  // Emit user's online status when they connect
+  // io.emit("userOnline", { userId: socket.id, status: true });
 
   // Handle getMessage event
   socket.on("getMessage", async () => {
     try {
       // Your logic to fetch messages from the database
-      const messages = await Chats.findAll({where :{global:true}});
+      const messages = await Chats.findAll({ where: { global: true } });
       io.emit("messages", messages);
     } catch (err) {
       console.error("Error fetching messages:", err);
     }
   });
 
-   // Handle incoming group messages
-socket.on("getGroupMessage", async (data) => {
-  try {
-    console.log("data is :", data);
-  
-    const groupId = data.groupId;
-    const groupName = data.groupName;
-  
-    console.log("group id is :", groupId);
-    console.log("group name is :", groupName);
-  
-    socket.join(groupName); // Join the room identified by the group name
-  
-    // Fetch group messages from the database
-    const groupmessages = await Chats.findAll({ where: { groupId } });
-  
-    console.log("groupmessages are : ", groupmessages);
-  
-    // Emit the group messages to all members in the room (group chat)
-    io.to(groupName).emit("groupmessages", groupmessages);
-  } catch (err) {
-    console.log('Error fetching group messages:', err);
-  }
-});
+  // Handle incoming group messages
+  socket.on("getGroupMessage", async (data) => {
+    try {
+      console.log("data is :", data);
 
+      const groupId = data.groupId;
+      const groupName = data.groupName;
+
+      console.log("group id is :", groupId);
+      console.log("group name is :", groupName);
+
+      socket.join(groupName); // Join the room identified by the group name
+
+      // Fetch group messages from the database
+      const groupmessages = await Chats.findAll({ where: { groupId } });
+
+      console.log("groupmessages are : ", groupmessages);
+
+      // Emit the group messages to all members in the room (group chat)
+      io.to(groupName).emit("groupmessages", groupmessages);
+    } catch (err) {
+      console.log("Error fetching group messages:", err);
+    }
+  });
 
   // socket.on("getGroupMessage", async (groupId) => {
   //   try {
@@ -92,12 +89,9 @@ socket.on("getGroupMessage", async (data) => {
   // Handle disconnect event
   socket.on("disconnect", () => {
     console.log("User disconnected");
+    io.emit("userOnline", { userId: socket.id, status: false });
   });
-
 });
-
-
-
 
 // io.on("connection", (socket) => {
 //   console.log("A user has connected");
@@ -105,7 +99,7 @@ socket.on("getGroupMessage", async (data) => {
 
 //   socket.on("send_message", async (messageData) => {
 //     try {
-    
+
 //       console.log("Message has been sent successfully!", messageData.data);
 
 //       // Broadcast the new message to all connected clients
@@ -116,17 +110,16 @@ socket.on("getGroupMessage", async (data) => {
 //   });
 // });
 
-
-
-
 // Middleware
 app.use(express.json());
 app.use(express.static("client"));
-app.use(cors({
-  origin: "http://localhost:3000",
-  methods: ["GET", "POST"],
-  credentials: true,
-}));
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST"],
+    credentials: true,
+  })
+);
 
 // Routes
 app.use("/user", userRouter);
@@ -153,5 +146,4 @@ const connectToDb = async () => {
 
 connectToDb();
 
-module.exports = {io}
-
+module.exports = { io };

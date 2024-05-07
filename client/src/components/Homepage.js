@@ -1,26 +1,27 @@
 import React from "react";
 
-import { useState,useEffect} from "react";
+import { useEffect, useState } from "react";
 
-import { useSelector,useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
-import { Container,Row,Col,Button,Stack,Form,ListGroup,Image, ListGroupItem, InputGroup} from "react-bootstrap";
+import { Button, Col, Container, Form, Image, InputGroup, ListGroup, ListGroupItem, Row, Stack } from "react-bootstrap";
 
-import { FaSearch,FaCircle,FaPaperPlane,FaCheckSquare } from "react-icons/fa";
+import { FaCircle, FaPaperPlane, FaSearch } from "react-icons/fa";
 
-import { fetchUsers,toggleUserSelection } from "../store/userStore";
+import { fetchUsers, toggleUserSelection } from "../store/userStore";
 
-import { getAllGroups,setGroupDetails,setGroupIsClicked,setIsToggle,setChatScreenIsClicked} from "../store/groupStore";
+import { getAllGroups, setChatScreenIsClicked, setGroupDetails, setGroupIsClicked } from "../store/groupStore";
+
 
 
 import chatImg from "../components/assets/chat-2389223_1920.png";
 
 import "./Homepage.css";
 
-import ChatScreen from "./ChatScreen"
+import ChatScreen from "./ChatScreen";
 
-import GroupChatScreen from "./GroupChatScreen";
 import InputGroupText from "react-bootstrap/esm/InputGroupText";
+import GroupChatScreen from "./GroupChatScreen";
 
 
 
@@ -39,13 +40,13 @@ const Homepage = () => {
 
   const groups = useSelector((state)=>state.userGroupCreation.allGroups);
 
-  //const groupDetails = useSelector((state)=>state.userGroupCreation.groupDetails);
-
   const groupIsClicked = useSelector((state)=>state.userGroupCreation.groupIsClicked);
 
   const isToggle = useSelector((state)=>state.userGroupCreation.isToggle);
 
   const chatScreenIsClicked = useSelector((state)=>state.userGroupCreation.chatScreenIsClicked);
+
+  
 
 
   function formatLastActiveTime(lastActiveTime) {
@@ -88,6 +89,11 @@ const Homepage = () => {
     dispatch(fetchUsers());
     dispatch(getAllGroups());
   },[]);
+
+  
+
+
+
 
   const groupHandler = (group) => {
     
@@ -133,12 +139,12 @@ const Homepage = () => {
             <div className="mx-auto mb-3 border-bottom" id="your-group-heading">All Users</div>
             {allUsers.map((user)=>(
             <ListGroup.Item key={user.id}>
-            <Stack direction="horizontal" gap={1}>
-                <Stack direction="vertical">
-                <div className="user-name">{user.name}</div>
-                <div className="user-lastseen">{formatLastActiveTime(user.updatedAt)}</div>
-                </Stack>
-              <FaCircle/>
+            <Stack direction="horizontal">
+                {/* <Stack direction="horizontal"> */}
+                <div className="user-name me-auto">{user.name}</div>
+                <div className="user-lastseen ms-auto">joined {formatLastActiveTime(user.updatedAt)}</div>
+                {/* </Stack> */}
+                {/* <FaCircle style={{ color:  "black" }} /> Display online status */}
             </Stack>
             </ListGroup.Item>
              

@@ -212,17 +212,17 @@ try {
 
    const arr1 = response.data.newAdminsToAdd;
 
-   console.log("Arr1 is : ",arr1);
+   //console.log("Arr1 is : ",arr1);
 
-   const arr2 = getState().userGroupCreation.allNewMembers;
+   //const arr2 = getState().userGroupCreation.allNewMembers;
 
-   console.log("Arr2 is : ",arr2);
+   //console.log("Arr2 is : ",arr2);
 
-   const arr = [...arr1,...arr2];
+   //const arr = [...arr1,...arr2];
 
-   console.log("arr is :",arr);
+   console.log("arr is :",arr1);
 
-   dispatch(setAllNewAdmins(arr));
+   dispatch(setAllNewAdmins(arr1));
 
 
 
@@ -263,6 +263,36 @@ try {
 }
 
 }
+
+export const addNewAdminToTheGroup = (newMembersData) => async (dispatch) => {
+
+  try {
+  
+    
+    const user = JSON.stringify(localStorage.getItem("user"));
+  
+    const token = user.token;
+  
+    const headers = {
+  
+        "Content-Type" : "application/json",
+        Authorization : token,
+    }
+  
+    const response = await axios.post("http://localhost:5000/userGroups/addAdminsToUserGroups",{newMembersData},{headers});
+  
+    console.log("Group created successfully : ", response.data);
+  
+  
+  } catch (err) {
+      
+    console.log(err);
+    console.log("Error creating group : ",err);
+  
+  }
+  
+  }
+  
 
 
 export const removeMembersFromTheGroup = (selectedUserDataFromGroup ) => async (dispatch) => {

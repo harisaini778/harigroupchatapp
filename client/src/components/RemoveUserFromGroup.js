@@ -45,6 +45,7 @@ const RemoveUserFromGroup = () => {
         }
 
        dispatch(removeMembersFromTheGroup(selectedUserDataFromGroup));
+       setShow(!show)
     }
 
 
