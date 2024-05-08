@@ -5,7 +5,7 @@ import axios from "axios";
 const initialState = {
 
   groupName : "",
-  selectedAdmins : [JSON.parse(localStorage.getItem("user")).userId],
+  selectedAdmins :JSON.parse(localStorage.getItem('user'))?.userId ? [JSON.parse(localStorage.getItem('user')).userId] : [],
   selectedMembers:[],
   selectTheUsersFromGroup : [],
   isLoading: false,
