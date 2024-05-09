@@ -23,6 +23,7 @@ import CreateGroup from "./CreateGroup";
 import { socket } from "../socket";
 import { setIsOnline } from "../store/userStore";
 import { useSelector,useDispatch} from "react-redux";
+import Avatar from "react-avatar";
 
 const ChatScreen = () => {
   const [messages, setMessages] = useState([]);
@@ -182,8 +183,14 @@ const ChatScreen = () => {
     <div className="outer-chat-div p-4">
       <Row>
         <Col md={12}>
-          <Stack direction="horizontal">
-            <h3 className="border-bottom pb-3 group-title">Group Chat</h3>
+          <Stack direction="horizontal" className="border-bottom" gap={2}>
+          <Avatar
+                            name="Common Group"
+                            size="40"
+                            round={true}
+                            className="avatar"
+                          />
+            <h3 className="group-title">Common Group</h3>
             <Stack direction="horizontal" gap={5} className="ms-auto">
               {createGroupToggle && <CreateGroup />}
               {showListGroup && (
@@ -206,7 +213,17 @@ const ChatScreen = () => {
             {messages.map((msg, index) => (
               <div key={index}>
                 <Stack gap={1} >
-                  <span className="message-user m-2">{msg.userName}</span>
+                  <Stack direction="horizontal" style={{boxShadow:"2px 2px rgba(0,0,0,0.2)",width:"fit-content",borderRadius:"10px"}} 
+                  className="m-1" >
+                  <Avatar
+                            name={msg.userName}
+                            size="30"
+                            round={true}
+                            className="avatar"
+                          />
+                            <span className="message-user m-2">{msg.userName}</span>
+                  </Stack>
+                
 
                   {msg.type && mediaTypes.image.includes(msg.type) && (
                     <Stack className="message-text" gap={2}>

@@ -35,6 +35,8 @@
     background-color:#dcfce7;
     display: inline-block;
     width: max-content !important;
+    box-sizing: border-box;
+    box-shadow:  1px 1px #15803d;
   }
   
   .border-bottom {

@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUsers } from "../store/userStore";
+
 import {
   ListGroup,
   Form,
@@ -22,6 +23,7 @@ import "./CreateGroup.css";
 import { AiOutlineUsergroupAdd } from "react-icons/ai";
 
 const CreateGroup = () => {
+
   const user = JSON.parse(localStorage.getItem("user"));
 
   const id = user.userId;
@@ -65,6 +67,11 @@ const CreateGroup = () => {
       dispatch(clearGroupCreation());
 
       setShow(!show);
+
+      
+    window.location.reload(); // Reload the page
+      
+      
     } catch (err) {
       console.log("error creating group  : ", err);
     }

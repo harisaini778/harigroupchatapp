@@ -24,6 +24,7 @@ import "./GroupChatScreen.css";
 import RemoveUserFromGroup from "./RemoveUserFromGroup";
 import { socket } from "../socket";
 import AddAdminToGroup from "./AddAdminToGroup";
+import Avatar from "react-avatar";
 
 const GroupChatScreen = () => {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -256,8 +257,14 @@ const GroupChatScreen = () => {
     <div className="outer-chat-div p-4">
       <Row>
         <Col md={12}>
-          <Stack direction="horizontal">
-            <h3 className="border-bottom pb-3 group-name-title">
+          <Stack direction="horizontal" className="border-bottom" gap={1}>
+          <Avatar
+                            name={groupName}
+                            size="40"
+                            round={true}
+                            className="avatar"
+                          />
+            <h3 className="group-name-title">
               {groupName.toUpperCase()}
             </h3>
             <Stack direction="horizontal" gap={5} className="ms-auto">
@@ -313,7 +320,17 @@ const GroupChatScreen = () => {
                 className={`message ${msg.user === "Me" ? "sent" : "received"}`}
               >
                 <Stack gap={1}>
-                  <span className="message-user">{msg.userName}</span>
+                  
+                <Stack direction="horizontal" style={{boxShadow:"2px 2px rgba(0,0,0,0.2)",width:"fit-content",borderRadius:"10px"}} 
+                  className="m-1" >
+                  <Avatar
+                            name={msg.userName}
+                            size="30"
+                            round={true}
+                            className="avatar"
+                          />
+                            <span className="message-user m-2">{msg.userName}</span>
+                  </Stack>
 
                   {msg.type.startsWith("image/") && (
                     <Stack gap={2}className="message-text">
