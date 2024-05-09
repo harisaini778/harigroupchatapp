@@ -41,6 +41,8 @@ const Signup = () => {
 
     console.log("res form  login handler : ",res);
 
+
+
     const {userId, token, email,userName } = res.data;
     console.log("res form useEffect : ",res)
     localStorage.setItem("user", JSON.stringify({ userId, email, token,userName }));
@@ -49,10 +51,7 @@ const Signup = () => {
 
     clearLoginFormDetails();
 
-    navigate("/homepage");
-
-
-
+    navigate("/homepage")
 
     } catch (err) {
       console.log("Err during login client : ",err);

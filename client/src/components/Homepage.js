@@ -32,6 +32,10 @@ const Homepage = () => {
 
   const [lastSeen,setLastSeen] = useState([]);
 
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filteredGroups, setFilteredGroups] = useState([]);
+  const [filteredUsers, setFilteredUsers] = useState([]);
+
   const dispatch = useDispatch();
 
   const allUsers = useSelector((state)=>state.userGroup.users);
@@ -73,7 +77,17 @@ const Homepage = () => {
 
 
 
+  useEffect(() => {
+    const filteredGroups = groups.filter(group =>
+      group.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    setFilteredGroups(filteredGroups);
 
+    const filteredUsers = allUsers.filter(user =>
+      user.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    setFilteredUsers(filteredUsers);
+  }, [searchQuery, groups, allUsers]);
 
 
   const startMessagingHandler = () => {
@@ -111,7 +125,7 @@ const Homepage = () => {
   
             <Stack direction="horizontal" className="m-3">
               <InputGroup>
-              <Form.Control type="text" placeholder={`Find "Groups, "Users"`} ></Form.Control>
+              <Form.Control type="text" placeholder={`Find "Groups, "Users"`} onChange={(e)=>setSearchQuery(e.target.value)} ></Form.Control>
               <InputGroupText>
               <Button className="search-btn-user">
             <FaSearch/>
@@ -124,31 +138,42 @@ const Homepage = () => {
 
               <Stack direction="vertical" gap={1}>
                 <div className="mx-auto mt-3 mb-3 border-bottom" id="your-group-heading">Your Groups</div>
-              {groups.map((group) => (
+              {/* {groups.map((group) => (
                 <ListGroupItem key={group.id} onClick={()=>groupHandler(group)}>
                   <Stack direction="horizontal" >
                     <div className="me-auto group-name">{(group.name).toUpperCase()}</div>
                   </Stack>
                 </ListGroupItem>
-              ))}
+              ))} */}
+               {filteredGroups.map((group) => (
+                    <ListGroupItem key={group.id} onClick={() => groupHandler(group)}>
+                      <Stack direction="horizontal">
+                        <div className="me-auto group-name">{group.name.toUpperCase()}</div>
+                      </Stack>
+                    </ListGroupItem>
+                  ))}
               </Stack>
             </ListGroup>
 
             <ListGroup className="user-list-group">
             <Stack gap={1}>
             <div className="mx-auto mb-3 border-bottom" id="your-group-heading">All Users</div>
-            {allUsers.map((user)=>(
+            {/* {allUsers.map((user)=>(
             <ListGroup.Item key={user.id}>
             <Stack direction="horizontal">
-                {/* <Stack direction="horizontal"> */}
                 <div className="user-name me-auto">{user.name}</div>
                 <div className="user-lastseen ms-auto">joined {formatLastActiveTime(user.updatedAt)}</div>
-                {/* </Stack> */}
-                {/* <FaCircle style={{ color:  "black" }} /> Display online status */}
             </Stack>
-            </ListGroup.Item>
-             
-            ))}
+            </ListGroup.Item>  
+            ))} */}
+            {filteredUsers.map((user) => (
+                    <ListGroup.Item key={user.id}>
+                      <Stack direction="horizontal">
+                        <div className="user-name me-auto">{user.name}</div>
+                        <div className="user-lastseen ms-auto">joined {formatLastActiveTime(user.updatedAt)}</div>
+                      </Stack>
+                    </ListGroup.Item>
+                  ))}
                 </Stack>
             </ListGroup>
             

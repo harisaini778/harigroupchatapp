@@ -2,7 +2,7 @@ const sequelize = require("../utils/database");
 const {DataTypes}  = require("sequelize");
 
 
-const ArchivedChats = sequelize.define("chats",{
+const ArchivedChats = sequelize.define("archivedchats",{
     id : {
         type : DataTypes.INTEGER,
         autoIncrement : true,

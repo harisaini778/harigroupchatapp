@@ -1,10 +1,13 @@
 .outer-chat-div{
     width : 120%;
+    overflow-x: hidden !important;
+   
 }
 
 .chat-container{
     max-height: 560px !important;
     overflow-y: auto !important;
+    scrollbar-width: none !important;
 }
   
   .message {
@@ -20,7 +23,7 @@
   }
   
   .message-user {
-    font-size: 12px;
+    font-size: 1rem;
     font-weight: bold;
     color: #15803d;
   }
@@ -31,7 +34,7 @@
     border-radius: 10px;
     background-color:#dcfce7;
     display: inline-block;
-    max-width: 80%; /* Limit message width */
+    width: max-content !important;
   }
   
   .border-bottom {
@@ -115,4 +118,10 @@
     border :2px solid #047857 !important; 
     color: #047857 !important;
     background-color: white !important;
+  }
+  .timestamp {
+    font-size: 0.7rem; 
+    font-style: italic;
+    align-items: start;
+    font-family: "Montserrat";
   }

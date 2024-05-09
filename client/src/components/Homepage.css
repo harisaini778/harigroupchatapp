@@ -9,10 +9,16 @@
     margin: 0px !important;
 
 } 
+.user-lastseen{
+    font-style: italic;
+    font-weight: lighter !important;
+    font-size: small;
+}
 
 .user-list-group{
     overflow-y: auto !important;
     max-height: 650px !important;
+    scrollbar-width: none !important;
 }
 .brand-slogan-homepage{
     
@@ -82,11 +88,11 @@
 }
 
 
-@media (max-width:576px) {
+/* @media (max-width:576px) {
     .user-list-col{
       display: none !important;
     }
-}
+} */
 
 .group-name,.group-lastseen,.user-name,.user-lastseen {
     color:rgb(7,94,84) ;

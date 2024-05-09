@@ -35,7 +35,6 @@ io.on("connection", (socket) => {
   console.log("A user has connected", socket.id);
 
   // Emit user's online status when they connect
-  // io.emit("userOnline", { userId: socket.id, status: true });
 
   // Handle getMessage event
   socket.on("getMessage", async () => {
@@ -73,18 +72,6 @@ io.on("connection", (socket) => {
     }
   });
 
-  // socket.on("getGroupMessage", async (groupId) => {
-  //   try {
-  //     console.log("group id is :", groupId);
-  //     socket.join(groupId);
-  //     const groupmessages = await Chats.findAll({ where: { groupId } });
-  //     console.log("groupmessages are : ", groupmessages);
-  //     socket.broadcast.to(groupId).emit("groupmessages", groupmessages); // Broadcast to all clients in the group except sender
-  //   } catch (err) {
-  //     console.log('Error fetching or sending group messages:', err);
-  //     socket.emit("groupMessageError", { error: "Error fetching or sending group messages" }); // Emit an error event
-  //   }
-  // });
 
   // Handle disconnect event
   socket.on("disconnect", () => {
@@ -93,22 +80,7 @@ io.on("connection", (socket) => {
   });
 });
 
-// io.on("connection", (socket) => {
-//   console.log("A user has connected");
-//   console.log("User ID is:", socket.id);
 
-//   socket.on("send_message", async (messageData) => {
-//     try {
-
-//       console.log("Message has been sent successfully!", messageData.data);
-
-//       // Broadcast the new message to all connected clients
-//       io.emit("new_message", messageData.data);
-//     } catch (err) {
-//       console.log("Error while sending the message:", err);
-//     }
-//   });
-// });
 
 // Middleware
 app.use(express.json());
@@ -147,3 +119,4 @@ const connectToDb = async () => {
 connectToDb();
 
 module.exports = { io };
+

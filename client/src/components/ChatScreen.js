@@ -73,24 +73,7 @@ const ChatScreen = () => {
       socket.on("messages", async (chats) => {
         try {
 
-          // dispatch(setIsOnline(isOnline));
-
-          // console.log("isOnline is : ",isOnline);
-          // Fetch user names for each message
-          // const userIds = chats.map(message => message.userId);
-          // const userDetailsPromises = userIds.map(async userId => {
-          //     const userDetailsRes = await axios.get(`http://localhost:5000/user/${userId}`);
-          //     return userDetailsRes.data.user.name; // Assuming user object has a userName property
-          // });
-          // const userNames = await Promise.all(userDetailsPromises);
-
-          // Combine new messages with stored messages and add user names
-          // const updatedMessages = chats.map((message, index) => ({
-          //     ...message,
-          //     userName: userNames[index],
-          // }));
-
-          // Save only the recent 10 chats in local storage
+  
           const limitedMessages = chats.slice(-10);
 
           // Update state with the recent chats
@@ -222,10 +205,11 @@ const ChatScreen = () => {
           <div className="chat-messages chat-container">
             {messages.map((msg, index) => (
               <div key={index}>
-                <Stack gap={1}>
-                  <span className="message-user">{msg.userName}</span>
+                <Stack gap={1} >
+                  <span className="message-user m-2">{msg.userName}</span>
 
                   {msg.type && mediaTypes.image.includes(msg.type) && (
+                    <Stack className="message-text" gap={2}>
                     <img
                       src={msg.message}
                       alt="Image"
@@ -236,9 +220,24 @@ const ChatScreen = () => {
                         objectFit: "contain",
                       }}
                     />
+                    <small className="timestamp">
+                  {new Date(msg.createdAt).toLocaleTimeString("en-GB", {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    second: "2-digit",
+                  })}
+                  {", "}
+                  {new Date(msg.createdAt).toLocaleDateString("en-GB", {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                  })}
+                </small>
+                    </Stack>
                   )}
 
                   {msg.type && mediaTypes.video.includes(msg.type) && (
+                    <Stack className="message-text" gap={2}>
                     <video
                       controls
                       className="message-video"
@@ -247,17 +246,61 @@ const ChatScreen = () => {
                       <source src={msg.message} type={msg.type} />
                       Your browser does not support the video tag.
                     </video>
+                    <small className="timestamp">
+                  {new Date(msg.createdAt).toLocaleTimeString("en-GB", {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    second: "2-digit",
+                  })}
+                  {", "}
+                  {new Date(msg.createdAt).toLocaleDateString("en-GB", {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                  })}
+                </small>
+                    </Stack>
                   )}
 
                   {msg.type && mediaTypes.audio.includes(msg.type) && (
+                    <Stack className="message-text" gap={2}>
                     <audio controls className="message-audio">
                       <source src={msg.message} type={msg.type} />
                       Your browser does not support the audio tag.
                     </audio>
+                    <small className="timestamp">
+                  {new Date(msg.createdAt).toLocaleTimeString("en-GB", {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    second: "2-digit",
+                  })}
+                  {", "}
+                  {new Date(msg.createdAt).toLocaleDateString("en-GB", {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                  })}
+                </small>
+                    </Stack>
                   )}
 
                   {msg.type === "text" && (
-                    <p className="message-text">{msg.message}</p>
+                    <Stack className="message-text" gap={2}>
+                    <p >{msg.message}</p>
+                    <small className="timestamp">
+                  {new Date(msg.createdAt).toLocaleTimeString("en-GB", {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    second: "2-digit",
+                  })}
+                  {", "}
+                  {new Date(msg.createdAt).toLocaleDateString("en-GB", {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                  })}
+                </small>
+                    </Stack>
                   )}
                 </Stack>
               </div>

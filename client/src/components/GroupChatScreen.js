@@ -234,7 +234,7 @@ const GroupChatScreen = () => {
 
         console.log("File has been sent successfully!", sendFile.data);
 
-        setSelectedFile(null);
+        //setSelectedFile(null);
 
         getChat();
       }
@@ -316,6 +316,7 @@ const GroupChatScreen = () => {
                   <span className="message-user">{msg.userName}</span>
 
                   {msg.type.startsWith("image/") && (
+                    <Stack gap={2}className="message-text">
                     <img
                       src={msg.message}
                       alt="Image"
@@ -326,9 +327,24 @@ const GroupChatScreen = () => {
                         objectFit: "contain",
                       }} // Example inline styles
                     />
+                      <small className="timestamp">
+                    {new Date(msg.createdAt).toLocaleTimeString("en-GB", {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                      second: "2-digit",
+                    })}
+                    {", "}
+                    {new Date(msg.createdAt).toLocaleDateString("en-GB", {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                    })}
+                  </small>
+                    </Stack>
                   )}
 
                   {msg.type.startsWith("video/") && (
+                    <Stack gap={2}className="message-text">
                     <video
                       controls
                       className="message-video"
@@ -339,25 +355,69 @@ const GroupChatScreen = () => {
                       <source src={msg.message} type={msg.type} />
                       Your browser does not support the video tag.
                     </video>
+                    <small className="timestamp">
+                    {new Date(msg.createdAt).toLocaleTimeString("en-GB", {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                      second: "2-digit",
+                    })}
+                    {", "}
+                    {new Date(msg.createdAt).toLocaleDateString("en-GB", {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                    })}
+                  </small>
+                    </Stack>
                   )}
 
                   {msg.type.startsWith("audio/") && (
+                    <Stack gap={2}className="message-text">
                     <audio controls className="message-audio">
                       {" "}
                       {/* Example inline styles */}
                       <source src={msg.message} type={msg.type} />
                       Your browser does not support the audio tag.
                     </audio>
+                    <small className="timestamp">
+                    {new Date(msg.createdAt).toLocaleTimeString("en-GB", {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                      second: "2-digit",
+                    })}
+                    {", "}
+                    {new Date(msg.createdAt).toLocaleDateString("en-GB", {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                    })}
+                  </small>
+                    </Stack>
+
                   )}
 
                   {msg.type === "text" && (
+                    <Stack gap={2}className="message-text">
                     <p
-                      className="message-text"
                     >
                       {" "}
                       {/* Example inline styles */}
                       {msg.message}
                     </p>
+                    <small className="timestamp">
+                    {new Date(msg.createdAt).toLocaleTimeString("en-GB", {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                      second: "2-digit",
+                    })}
+                    {", "}
+                    {new Date(msg.createdAt).toLocaleDateString("en-GB", {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                    })}
+                  </small>
+                    </Stack>
                   )}
                 </Stack>
               </div>
